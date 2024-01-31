@@ -3,7 +3,7 @@ import 'api.dart';
 
 class UserApi {
   static Future<Response> authenticate(String username, String password) async {
-    return await api.post('/login_check', data: {'username': username, 'password': password});
+    return await api.post('/signin', data: {'username': username, 'password': password});
   }
 
   static setAuthHeader(String token) {
