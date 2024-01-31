@@ -43,7 +43,7 @@ final router = GoRouter(
           child: Scaffold(
             appBar: AppBar(
               toolbarHeight: 128,
-              backgroundColor: const Color(0x00ffffff),
+              backgroundColor: Colors.transparent,
               title: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(

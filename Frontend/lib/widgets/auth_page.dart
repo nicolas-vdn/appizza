@@ -101,25 +101,50 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     Column(
                       children: [
-                        FilledButton.icon(
-                          onPressed: _isLoading ? null : _onSubmit,
-                          icon: _isLoading
-                              ? Container(
-                                  width: 24,
-                                  height: 24,
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: const CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 3,
-                                  ),
-                                )
-                              : const Icon(Icons.login),
-                          label: const Text('Login'),
+                        SizedBox(
+                          width: 200,
+                          child: FilledButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(
+                                  Theme.of(context).colorScheme.primary),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(8.0))),
+                            ),
+                            onPressed: _isLoading ? null : _onSubmit,
+                            icon: _isLoading
+                                ? Container(
+                                    width: 24,
+                                    height: 24,
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                                : const Icon(Icons.login),
+                            label: const Text('Login'),
+                          ),
                         ),
-                        FilledButton.icon(
-                          onPressed: _onSubmit,
-                          icon: const Icon(Icons.login),
-                          label: const Text('Register'),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: FilledButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(
+                                  Theme.of(context).colorScheme.primary),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(8.0))),
+                            ),
+                            onPressed: _onSubmit,
+                            icon: const Icon(Icons.login),
+                            label: const Text('Register'),
+                          ),
                         ),
                       ],
                     )
