@@ -29,7 +29,7 @@ final router = GoRouter(
           return '/';
         }
       } else {
-        return '/authenticate';
+        return '/';
       }
     }
     return null;

@@ -31,11 +31,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       title: 'Pizzapp',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.light)),
+        brightness: Brightness.light,
+        cardColor : const Color.fromARGB(204, 187, 55, 51),
+        textTheme : const TextTheme(
+            bodyMedium: TextStyle(color: Colors.white)
+        ),
+      ),
       darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.dark)),
+        brightness: Brightness.dark,
+        cardColor : Colors.black,
+      ),
       themeMode: _themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,

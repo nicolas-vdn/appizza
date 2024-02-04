@@ -28,7 +28,7 @@ class _AuthPageState extends State<AuthPage> {
       await user.signIn(_username, _password);
 
       if (context.mounted && user.isSignedIn()) {
-        context.go('/connector');
+        context.go('/');
       }
     }
   }
@@ -43,8 +43,9 @@ class _AuthPageState extends State<AuthPage> {
           child: SizedBox(),
         ),
         Expanded(
-          flex: 3,
+          flex: 1,
           child: Card(
+            color: Theme.of(context).cardColor,
             child: Padding(
               padding: const EdgeInsets.all(32.0),
               child: Form(
@@ -55,6 +56,7 @@ class _AuthPageState extends State<AuthPage> {
                     Column(
                       children: [
                         TextFormField(
+                          style: const TextStyle(color: Colors.white),
                           onSaved: (String? value) {
                             _username = value!;
                           },
@@ -106,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
                           child: FilledButton.icon(
                             style: ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll<Color>(
-                                  Theme.of(context).colorScheme.primary),
+                                  Theme.of(context).colorScheme.surfaceTint),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius:
