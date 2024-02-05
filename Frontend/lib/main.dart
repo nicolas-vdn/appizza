@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/providers/auth_provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:frontend/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'router/index.dart';
@@ -29,17 +29,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Pizzapp',
+      title: 'PizzApp',
       theme: ThemeData(
         brightness: Brightness.light,
-        cardColor : const Color.fromARGB(204, 187, 55, 51),
-        textTheme : const TextTheme(
-            bodyMedium: TextStyle(color: Colors.white)
-        ),
+        cardColor: const Color.fromARGB(204, 187, 55, 51),
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        cardColor : Colors.black,
+        cardColor: Colors.black,
       ),
       themeMode: _themeMode,
       routerConfig: router,

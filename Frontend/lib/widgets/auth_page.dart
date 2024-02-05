@@ -29,6 +29,8 @@ class _AuthPageState extends State<AuthPage> {
 
       if (context.mounted && user.isSignedIn()) {
         context.go('/');
+      } else {
+        setState(() => _isLoading = false);
       }
     }
   }

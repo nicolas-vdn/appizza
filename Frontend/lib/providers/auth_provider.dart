@@ -5,15 +5,24 @@ import '../api/user_api.dart';
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
+  final bool _error = false;
 
   String? get token => _token;
+
+  bool get error => _error;
 
   bool isSignedIn() {
     return _token != null ? true : false;
   }
 
   Future<void> signIn(String username, String password) async {
-    await UserApi.authenticate(username, password).then((response) async {
+    await Future.delayed(const Duration(seconds: 1), () {
+      _token = "token";
+    });
+
+    notifyListeners();
+
+    /*await UserApi.authenticate(username, password).then((response) async {
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('refresh_token', response.data['refresh_token']);
@@ -24,7 +33,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         throw Exception(response.data);
       }
-    });
+    });*/
   }
 
   Future<void> localSignIn() async {
