@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'PizzApp',
       theme: ThemeData(
         brightness: Brightness.light,
-        cardColor: const Color.fromARGB(204, 187, 55, 51),
+        cardColor: const Color.fromARGB(255, 154, 44, 44),
         textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
       darkTheme: ThemeData(
