@@ -4,11 +4,9 @@ import '../interfaces/pizza.dart';
 
 class CartProvider extends ChangeNotifier {
   final Map<Pizza, int> _list = {
-    Pizza(id: 1, name: "Reine", price: 10.0): 1,
-    Pizza(id: 2, name: "4 fromages", price: 11.50): 1,
   };
 
-  double _total = 21.50;
+  double _total = 0.0;
 
   Map<Pizza, int> get list => _list;
 
@@ -25,4 +23,13 @@ class CartProvider extends ChangeNotifier {
       _total -= item.price;
     }
   }
+
+  getQuantityOfPizza(Pizza givenPizza){
+    if (_list.containsKey(givenPizza)) {
+      return _list[givenPizza]!;
+    } else {
+      return 0;
+    }
+  }
+
 }

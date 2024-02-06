@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../interfaces/pizza.dart';
 import '../providers/cart_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,23 +12,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Pizza> pizzaList = [
+    Pizza(id: 1, name: "Reine", price: 10.50),
+    Pizza(id: 2, name: "4 Fromages", price: 12.30),
+    Pizza(id: 3, name: "Bolognaise", price: 9.80),
+    Pizza(id: 4, name: "Raclette", price: 14.00),
+  ];
+
+  CartProvider cart = CartProvider();
+
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         CartContent(),
         Expanded(
           child: Card(
             color: Colors.transparent,
             child: Center(
-              child: Text(
-                "Bonjour",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+              child: ListView.builder(
+                itemCount: pizzaList.length,
+                itemBuilder: (context, index) {
+                  final pizza = pizzaList[index];
+                  return ListTile(
+                    title: Text(pizza.name),
+                    subtitle: Text('USD ${pizza.price}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                        onPressed: () => cart.removePizza(pizza),
+                        icon: const Icon(Icons.remove)),
+                        const SizedBox(width: 15),
+                        Text('${cart.getQuantityOfPizza(pizza)}'),
+                        const SizedBox(width: 15),
+                        IconButton(
+                        onPressed: () => cart.addPizza(pizza),
+                        icon: const Icon(Icons.add)),
+                      ]
+                    )
+                  );
+                }
+              )
             ),
-          ),
-        ),
+          )
+        )
       ],
     );
   }
