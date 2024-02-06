@@ -10,11 +10,13 @@ class CartProvider extends ChangeNotifier {
 
   Map<Pizza, int> get list => _list;
 
-  double get total => _total;
+  double get total => double.parse(_total.toStringAsFixed(2));
 
   addPizza(Pizza item) {
+    print(item);
     _list[item] = _list.keys.contains(item) ? _list[item]! + 1 : 1;
     _total += item.price;
+    notifyListeners();
   }
 
   removePizza(Pizza item) {
@@ -22,6 +24,7 @@ class CartProvider extends ChangeNotifier {
       _list[item]! > 1 ? _list[item] = _list[item]! - 1 : _list.remove(item);
       _total -= item.price;
     }
+    notifyListeners();
   }
 
   getQuantityOfPizza(Pizza givenPizza){
