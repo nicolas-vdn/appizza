@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../interfaces/pizza.dart';
 
 class CartProvider extends ChangeNotifier {
-  final Map<Pizza, int> _list = {
-  };
+  final Map<Pizza, int> _list = {};
 
   double _total = 0.0;
 
@@ -27,12 +26,11 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getQuantityOfPizza(Pizza givenPizza){
+  getQuantityOfPizza(Pizza givenPizza) {
     if (_list.containsKey(givenPizza)) {
       return _list[givenPizza]!;
     } else {
       return 0;
     }
   }
-
 }

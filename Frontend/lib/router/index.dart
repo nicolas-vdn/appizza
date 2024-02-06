@@ -89,7 +89,7 @@ final router = GoRouter(
             child: ChangeNotifierProvider(
               create: (context) => CartProvider(),
               builder: (context, child) {
-                return const Scaffold(
+                return Scaffold(
                   body: HomePage(),
                 );
               },

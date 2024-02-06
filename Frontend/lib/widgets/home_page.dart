@@ -27,41 +27,40 @@ class HomePage extends StatelessWidget {
           child: Card(
             margin: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
             color: Colors.white,
-            child: Center(
-              child: Consumer<CartProvider>(
-                builder: (context, cart, child) {
-                  return ListView.separated(
-                    itemCount: pizzaList.length,
-                    itemBuilder: (context, index) {
-                      final pizza = pizzaList[index];
-                      return ListTile(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        title: Text(pizza.name),
-                        subtitle: Text('USD ${pizza.price}'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            IconButton(
-                                onPressed: () => cart.removePizza(pizza),
-                                icon: const Icon(Icons.remove)),
-                            const SizedBox(width: 15),
-                            Text('${cart.getQuantityOfPizza(pizza)}'),
-                            const SizedBox(width: 15),
-                            IconButton(
-                                onPressed: () => cart.addPizza(pizza),
-                                icon: const Icon(Icons.add)),
-                          ],
-                        ),
-                      );
-                    }, separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: 10);
+            child: Consumer<CartProvider>(
+              builder: (context, cart, child) {
+                return ListView.separated(
+                  itemCount: pizzaList.length,
+                  itemBuilder: (context, index) {
+                    final pizza = pizzaList[index];
+                    return ListTile(
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      title: Text(pizza.name),
+                      subtitle: Text('${pizza.price} €'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () => cart.removePizza(pizza),
+                              icon: const Icon(Icons.remove)),
+                          const SizedBox(width: 15),
+                          Text('${cart.getQuantityOfPizza(pizza)}'),
+                          const SizedBox(width: 15),
+                          IconButton(
+                              onPressed: () => cart.addPizza(pizza),
+                              icon: const Icon(Icons.add)),
+                        ],
+                      ),
+                    );
                   },
-                  );
-                },
-              ),
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: 10);
+                  },
+                );
+              },
             ),
           ),
         )
@@ -105,52 +104,63 @@ class CartContent extends StatelessWidget {
                 ),
               ),
               collapsed: const SizedBox(),
-              expanded: cart.list.isEmpty
-                  ? const SizedBox()
-                  : Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32.0),
-                          child: Divider(color: Colors.black),
-                        ),
-                        Container(
-                          constraints: const BoxConstraints(
-                            maxHeight: 256,
-                          ),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: cart.list.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                          '${cart.list.values.toList()[index]} x'),
-                                    ),
-                                    Center(
-                                      child: Text(
-                                          cart.list.keys.toList()[index].name),
-                                    ),
-                                    Center(
-                                      child: Text(
-                                          '${cart.list.keys.toList()[index].price} €'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+              expanded:
+                  cart.list.isEmpty ? const SizedBox() : const ExpandedRecap(),
             );
           },
         ),
       ),
+    );
+  }
+}
+
+class ExpandedRecap extends StatelessWidget {
+  const ExpandedRecap({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Divider(color: Colors.black),
+        ),
+        Container(
+          constraints: const BoxConstraints(
+            maxHeight: 256,
+          ),
+          child: Consumer<CartProvider>(
+            builder: (context, cart, child) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: cart.list.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Center(
+                          child: Text('${cart.list.values.toList()[index]} x'),
+                        ),
+                        Center(
+                          child: Text(cart.list.keys.toList()[index].name),
+                        ),
+                        Center(
+                          child:
+                              Text('${cart.list.keys.toList()[index].price} €'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
