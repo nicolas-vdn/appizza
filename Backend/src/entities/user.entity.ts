@@ -11,9 +11,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  salt: string;
-
   @Column({ nullable: true })
   authToken: string;
 }
