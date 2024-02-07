@@ -11,4 +11,8 @@ export class PizzaService {
     getAllPizzas() {
         return this.pizzasRepository.find();
     }
+
+    getOnePizza(id: number): Promise<Pizza> {
+        return this.pizzasRepository.findOneBy({id: id});
+    }
 }

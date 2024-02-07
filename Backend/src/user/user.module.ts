@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { Cart } from '../entities/cart.entity';
+import { Order } from '../entities/order.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Cart]),
+    TypeOrmModule.forFeature([User, Order]),
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,

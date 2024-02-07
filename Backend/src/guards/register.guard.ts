@@ -12,7 +12,7 @@ export class RegisterGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const body = context.switchToHttp().getRequest().body;
-    const user = await this.userService.findUser(body.username);
+    const user = await this.userService.findUserByName(body.username);
 
     if (user) {
       throw new UnauthorizedException('user already exists');

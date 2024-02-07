@@ -5,7 +5,7 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Cart } from '../entities/cart.entity';
+import { Order } from '../entities/order.entity';
 
 @Injectable()
 export class UserService {
@@ -23,8 +23,12 @@ export class UserService {
     return this.usersRepository.save(newUser);
   }
 
-  async findUser(username: string): Promise<User> | null {
-    return this.usersRepository.findOneBy({ username });
+  async findUserByName(username: string): Promise<User> | null {
+    return this.usersRepository.findOneBy({ username: username });
+  }
+
+  async findUserById(id: number): Promise<User> | null {
+    return this.usersRepository.findOneBy({ id: id });
   }
 
   async createAuthToken(user: User): Promise<string> {
