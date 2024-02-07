@@ -11,12 +11,7 @@ import { UserModule } from '../user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Cart]),
-    ConfigModule.forRoot(),
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60d' },
-    }),
+    ConfigModule.forRoot()
   ],
   controllers: [CartController],
   providers: [CartService],

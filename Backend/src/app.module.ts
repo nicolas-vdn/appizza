@@ -7,8 +7,8 @@ import { User } from './entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { Cart } from './entities/cart.entity';
 import { CartModule } from './cart/cart.module';
-import { CartService } from './cart/cart.service';
-import { CartController } from './cart/cart.controller';
+import { PizzaModule } from './pizza/pizza.module';
+import { Pizza } from './entities/pizza.entity';
 
 @Module({
   imports: [
@@ -20,13 +20,14 @@ import { CartController } from './cart/cart.controller';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASS,
       database: process.env.DATABASE_NAME,
-      entities: [User, Cart],
+      entities: [User, Cart, Pizza],
       synchronize: true,
     }),
     UserModule,
     CartModule,
+    PizzaModule,
   ],
-  controllers: [AppController, CartController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
