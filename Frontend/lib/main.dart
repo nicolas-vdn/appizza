@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         cardColor: const Color.fromARGB(255, 154, 44, 44),
-        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
