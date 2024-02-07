@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/providers/auth_provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:frontend/providers/auth_provider.dart';
+import 'package:frontend/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'router/index.dart';
 
 void main() {
   usePathUrlStrategy();
-  runApp(ChangeNotifierProvider(
-      create: (context) => AuthProvider(), child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => CartProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -29,13 +35,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Pizzapp',
+      title: 'PizzApp',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.light)),
+        brightness: Brightness.light,
+        cardColor: const Color.fromARGB(255, 154, 44, 44),
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+      ),
       darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.dark)),
+        brightness: Brightness.dark,
+        cardColor: Colors.black,
+      ),
       themeMode: _themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
