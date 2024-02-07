@@ -54,14 +54,14 @@ class _AuthPageState extends State<AuthPage> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          constraints: const BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 800),
           child: Padding(
             padding: const EdgeInsets.all(32),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   WelcomeSection(register: _register),
                   const SizedBox(
