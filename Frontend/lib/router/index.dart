@@ -109,14 +109,11 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, CartProvider>(
-        builder: (context, authProvider, cartProvider, child) {
+    return Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
       return authProvider.isSignedIn()
           ? IconButton(
               icon: const Icon(Icons.logout),
-              color: MyApp.of(context).themeMode == ThemeMode.light
-                  ? Colors.black
-                  : Colors.amber,
+              color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
               onPressed: () async {
                 cartProvider.emptyCart();
                 await authProvider.logout();
@@ -138,17 +135,11 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light
-          ? Icons.dark_mode
-          : Icons.light_mode),
-      color: MyApp.of(context).themeMode == ThemeMode.light
-          ? Colors.black
-          : Colors.amber,
+      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+      color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
       onPressed: () {
-        MyApp.of(context).changeTheme(
-            MyApp.of(context).themeMode == ThemeMode.light
-                ? ThemeMode.dark
-                : ThemeMode.light);
+        MyApp.of(context)
+            .changeTheme(MyApp.of(context).themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
       },
     );
   }

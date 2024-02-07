@@ -9,9 +9,7 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconButton(
-            onPressed: () => context.go('/'),
-            icon: const Icon(Icons.arrow_back)),
+        IconButton(onPressed: () => context.go('/'), icon: const Icon(Icons.arrow_back)),
         const CartContent(),
         Expanded(
           child: Form(
@@ -36,10 +34,9 @@ class CartPage extends StatelessWidget {
                   ),
                   FilledButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                          Theme.of(context).colorScheme.surfaceTint),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0))),
+                      backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
+                      shape:
+                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
                     ),
                     onPressed: null,
                     child: const Text('Commander'),

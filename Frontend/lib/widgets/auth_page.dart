@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
-import 'classes/GradientText.dart';
+import 'classes/gradient_text.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -49,63 +49,73 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            WelcomeSection(register: _register),
-            const SizedBox(
-              height: 64.0,
-            ),
-            TextFormField(
-              onSaved: (String? value) {
-                _username = value!;
-              },
-              decoration: const InputDecoration(
-                hintText: 'Nom d\'utilisateur',
-                icon: Icon(Icons.person),
-              ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              obscureText: _isObscured,
-              onSaved: (String? value) {
-                _password = value!;
-              },
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isObscured = !_isObscured;
-                      });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  WelcomeSection(register: _register),
+                  const SizedBox(
+                    height: 64.0,
+                  ),
+                  TextFormField(
+                    onSaved: (String? value) {
+                      _username = value!;
                     },
-                    icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                hintText: 'Mot de passe',
-                icon: const Icon(Icons.lock),
+                    decoration: const InputDecoration(
+                      hintText: 'Nom d\'utilisateur',
+                      icon: Icon(Icons.person),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    obscureText: _isObscured,
+                    onSaved: (String? value) {
+                      _password = value!;
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscured = !_isObscured;
+                            });
+                          },
+                          icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                      hintText: 'Mot de passe',
+                      icon: const Icon(Icons.lock),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  ActionSection(
+                      register: _register, loading: _isLoading, switchForm: _switchRegister, submit: _onSubmit)
+                ],
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
             ),
-            ActionSection(register: _register, loading: _isLoading, switchForm: _switchRegister, submit: _onSubmit)
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -129,7 +139,7 @@ class _WelcomeSectionState extends State<WelcomeSection> {
         children: [
           Text(widget.register ? "Bienvenue" : "Bon retour",
               style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, fontWeightDelta: 2)),
-          Text(widget.register ? "Connectez vous pour continuer" : "Créez un nouveau compte",
+          Text(widget.register ? "Créez un nouveau compte" : "Connectez vous pour continuer",
               style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
         ],
       ),
@@ -156,67 +166,64 @@ class _ActionSectionState extends State<ActionSection> {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: <Color>[
-                          Color.fromARGB(255, 204, 0, 0),
-                          Color.fromARGB(255, 153, 0, 51),
-                        ],
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: [
+                Color.fromARGB(255, 204, 0, 0),
+                Color.fromARGB(255, 153, 0, 51),
+              ]),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              onPressed: () {},
+              icon: widget.loading
+                  ? Container(
+                      width: 24,
+                      height: 24,
+                      padding: const EdgeInsets.all(2.0),
+                      child: const CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 3,
                       ),
+                    )
+                  : const Icon(
+                      Icons.login,
+                      color: Colors.white,
                     ),
-                  ),
-                ),
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.all(16.0),
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () => widget.loading ? null : widget.submit(),
-                  label: Text(widget.register ? "Inscription" : "Connexion"),
-                  icon: widget.loading
-                      ? Container(
-                          width: 24,
-                          height: 24,
-                          padding: const EdgeInsets.all(2.0),
-                          child: const CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 3,
-                          ),
-                        )
-                      : const Icon(Icons.login),
-                ),
-              ],
+              label: Text(
+                widget.register ? "Inscription" : "Connexion",
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+              ),
             ),
           ),
           const SizedBox(
-            height: 8,
+            height: 16.0,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?"),
               TextButton(
                 onPressed: () => widget.switchForm(),
                 child: GradientText(
                   widget.register ? "Se connecter" : "S'inscrire",
-                  gradient: const LinearGradient(colors: [
+                  gradient: const LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
                     Color.fromARGB(255, 204, 0, 0),
                     Color.fromARGB(255, 153, 0, 51),
                   ]),
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
