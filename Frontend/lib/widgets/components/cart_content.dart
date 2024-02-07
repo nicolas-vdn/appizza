@@ -14,7 +14,7 @@ class CartContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
-        color: Theme.of(context).cardColor,
+        color: const Color.fromARGB(255, 153, 0, 51),
         child: Consumer<CartProvider>(
           builder: (context, cart, child) {
             return ExpandablePanel(

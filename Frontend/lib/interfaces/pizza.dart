@@ -5,6 +5,7 @@ class Pizza implements EntityInterface {
     required this.id,
     required this.name,
     required this.price,
+    required this.url,
   });
 
   @override
@@ -13,6 +14,7 @@ class Pizza implements EntityInterface {
       id: map['id'],
       name: map['name'],
       price: double.parse(map['price']),
+      url: map['image_url']
     );
   }
 
@@ -28,4 +30,5 @@ class Pizza implements EntityInterface {
   late int id;
   late String name;
   late double price;
+  late String url;
 }

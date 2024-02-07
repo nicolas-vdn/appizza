@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api/pizza_api.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../interfaces/pizza.dart';
 import '../providers/cart_provider.dart';
@@ -36,49 +37,146 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const CartContent(),
-          Expanded(
-            child: Card(
-              margin: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
-              color: Colors.white,
-              child: Consumer<CartProvider>(
-                builder: (context, cart, child) {
-                  return ListView.separated(
-                    itemCount: _pizzaList.length,
-                    itemBuilder: (context, index) {
-                      final pizza = _pizzaList[index];
-                      return ListTile(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        title: Text(pizza.name),
-                        subtitle: Text('${pizza.price} €'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            IconButton(onPressed: () => cart.removePizza(pizza), icon: const Icon(Icons.remove)),
-                            const SizedBox(width: 15),
-                            Text('${cart.quantityOf(pizza)}'),
-                            const SizedBox(width: 15),
-                            IconButton(onPressed: () => cart.addPizza(pizza), icon: const Icon(Icons.add)),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: 10);
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
           OutlinedButton.icon(
             label: const Text('Valider la commande'),
             onPressed: () => context.go('/cart'),
             icon: const Icon(Icons.shopping_cart_checkout),
           ),
+          Expanded(
+            child: Consumer<CartProvider>(
+              builder: (context, cart, child) {
+                return CarouselSlider(
+                  options: CarouselOptions(height: 500.0),
+                  items: _pizzaList.map((pizza) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Stack(
+                              clipBehavior: Clip.none,
+                              alignment: AlignmentDirectional.topCenter,
+                              children: [
+                                Positioned(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+                                        stops: [0.1, 0.9],
+                                        colors: [
+                                          Color.fromARGB(255, 204, 0, 0),
+                                          Color.fromARGB(255, 153, 0, 51),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 6.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 32.0, top: 128, right: 32, bottom: 32),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    pizza.name,
+                                                    style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                                                    softWrap: true,
+                                                  ),
+                                                  Text(
+                                                    "${pizza.price} €",
+                                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              const Card(
+                                                color: Colors.transparent,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                    children: [Text("4.3"), Icon(Icons.star)],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 32,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () => cart.removePizza(pizza),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.white,
+                                                  padding: const EdgeInsets.all(20),
+                                                  shape: const CircleBorder(),
+                                                ),
+                                                child: const Icon(Icons.remove),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text('${cart.quantityOf(pizza)}'),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () => cart.addPizza(pizza),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.white,
+                                                  padding: const EdgeInsets.all(20),
+                                                  shape: const CircleBorder(),
+                                                ),
+                                                child: const Icon(Icons.add),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -100,
+                                  child: SizedBox(
+                                    width: 200,
+                                    height: 200,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0), // Ajustez la valeur du border radius selon vos besoins
+                                      child: Image.network(
+                                        pizza.url, // Remplacez l'URL par l'URL de votre image
+                                        width: 200.0, // Ajustez la largeur de l'image selon vos besoins
+                                        height: 200.0, // Ajustez la hauteur de l'image selon vos besoins
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ),
+          const CartContent(),
         ],
       ),
     );
