@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../providers/auth_provider.dart';
+import '../providers/cart_provider.dart';
 import '../widgets/auth_page.dart';
 import '../widgets/home_page.dart';
 
@@ -113,15 +114,16 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(builder: (context, provider, child) {
-      return provider.isSignedIn()
+    return Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
+      return authProvider.isSignedIn()
           ? IconButton(
               icon: const Icon(Icons.logout),
               color: MyApp.of(context).themeMode == ThemeMode.light
                   ? Colors.black
                   : Colors.amber,
               onPressed: () async {
-                await provider.logout();
+                cartProvider.emptyCart();
+                await authProvider.logout();
                 if (context.mounted) {
                   context.go("/authenticate");
                 }

@@ -11,7 +11,7 @@ class CartProvider extends ChangeNotifier {
 
   double get total => double.parse(_total.toStringAsFixed(2));
 
-  addPizza(Pizza item) {
+  void addPizza(Pizza item) {
     if (_list.keys.contains(item)) {
       if (_list[item]! < 10) {
         _list[item] = _list[item]! + 1;
@@ -24,7 +24,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  removePizza(Pizza item) {
+  void removePizza(Pizza item) {
     if (_list.keys.contains(item)) {
       _list[item]! > 1 ? _list[item] = _list[item]! - 1 : _list.remove(item);
       _total -= item.price;
@@ -32,7 +32,13 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  quantityOf(Pizza pizza) {
+  int quantityOf(Pizza pizza) {
     return _list[pizza] ?? 0;
+  }
+
+  void emptyCart() {
+    _list.clear();
+    _total = 0;
+    notifyListeners();
   }
 }
