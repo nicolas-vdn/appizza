@@ -2,26 +2,34 @@ import {
   BadRequestException,
   Body,
   Controller,
+  HttpCode,
+  HttpStatus,
+  Options,
   Post,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from '../dtos/createUser.dto';
 import { RegisterGuard } from '../guards/register.guard';
-import { AuthUserDto } from '../dtos/authUser.dto';
+import { UserDto } from '../dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Options('*')
+  @HttpCode(200)
+  launchOk() {
+    return HttpStatus.OK;
+  }
+
   @Post('register')
   @UseGuards(RegisterGuard)
   @UsePipes(ValidationPipe)
   async createUser(
-    @Body() createUserDto: CreateUserDto,
+    @Body() createUserDto: UserDto,
   ): Promise<{ authToken: string }> {
     const newUser = await this.userService.createUser(createUserDto);
     if (newUser) {
@@ -30,9 +38,10 @@ export class UserController {
   }
 
   @Post('login')
+  @HttpCode(200)
   @UsePipes(ValidationPipe)
   async loginUser(
-    @Body() authUserDto: AuthUserDto,
+    @Body() authUserDto: UserDto,
   ): Promise<{ authToken: string }> {
     const user = await this.userService.findUser(authUserDto.username);
 

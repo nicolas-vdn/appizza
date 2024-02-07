@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { CartController } from './cart.controller';
+import { CartService } from './cart.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Cart } from '../entities/cart.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Cart]),
+    TypeOrmModule.forFeature([Cart]),
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
@@ -17,7 +18,7 @@ import { Cart } from '../entities/cart.entity';
       signOptions: { expiresIn: '60d' },
     }),
   ],
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [CartController],
+  providers: [CartService],
 })
-export class UserModule {}
+export class CartModule {}
