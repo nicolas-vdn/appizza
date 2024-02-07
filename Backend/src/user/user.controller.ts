@@ -43,7 +43,7 @@ export class UserController {
   async loginUser(
     @Body() authUserDto: UserDto,
   ): Promise<{ authToken: string }> {
-    const user = await this.userService.findUser(authUserDto.username);
+    const user = await this.userService.findUserByName(authUserDto.username);
 
     if (!user) {
       throw new BadRequestException('invalid credentials');

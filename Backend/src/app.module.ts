@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
-import { Cart } from './entities/cart.entity';
-import { CartModule } from './cart/cart.module';
+import { Order } from './entities/order.entity';
+import { OrderModule } from './order/order.module';
 import { PizzaModule } from './pizza/pizza.module';
 import { Pizza } from './entities/pizza.entity';
 
@@ -20,11 +20,11 @@ import { Pizza } from './entities/pizza.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASS,
       database: process.env.DATABASE_NAME,
-      entities: [User, Cart, Pizza],
+      entities: [User, Order, Pizza],
       synchronize: true,
     }),
     UserModule,
-    CartModule,
+    OrderModule,
     PizzaModule,
   ],
   controllers: [AppController],
