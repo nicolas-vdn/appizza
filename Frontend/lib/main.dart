@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:frontend/providers/auth_provider.dart';
+import 'package:frontend/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'router/index.dart';
 
 void main() {
   usePathUrlStrategy();
-  runApp(ChangeNotifierProvider(
-      create: (context) => AuthProvider(), child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => CartProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {

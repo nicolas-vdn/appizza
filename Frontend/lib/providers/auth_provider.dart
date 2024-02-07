@@ -6,6 +6,7 @@ import '../api/user_api.dart';
 class AuthProvider extends ChangeNotifier {
   String? _token;
   final bool _error = false;
+  final bool _loading = false;
 
   String? get token => _token;
 
@@ -13,6 +14,14 @@ class AuthProvider extends ChangeNotifier {
 
   bool isSignedIn() {
     return _token != null ? true : false;
+  }
+
+  Future<void> register(String username, String password) async {
+    await Future.delayed(const Duration(seconds: 1), () {
+      _token = "token";
+    });
+
+    notifyListeners();
   }
 
   Future<void> signIn(String username, String password) async {
