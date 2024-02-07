@@ -1,6 +1,6 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
-export class AuthUserDto {
+export class UserDto {
   @IsNotEmpty()
   @MinLength(3)
   username: string;
