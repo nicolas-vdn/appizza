@@ -35,6 +35,7 @@ final router = GoRouter(
     }
     return null;
   },
+  initialLocation: "/authenticate",
   navigatorKey: _rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -43,19 +44,16 @@ final router = GoRouter(
         return NoTransitionPage(
           child: Scaffold(
             appBar: AppBar(
-              toolbarHeight: 128,
+              centerTitle: true,
               backgroundColor: Colors.transparent,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 96,
-                    child: Image.asset('pizza.png'),
-                  ),
-                  const SizedBox(width: 64),
-                  const Text('PizzApp'),
-                ],
+              leading: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 48,
+                  child: Image.asset('pizza.png'),
+                ),
               ),
+              title: const Text('PizzApp'),
               actions: const [
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -73,6 +71,16 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
+          name: "authentication",
+          path: '/authenticate',
+          parentNavigatorKey: _shellNavigatorKey,
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: Scaffold(
+              body: AuthPage(),
+            ),
+          ),
+        ),
+        GoRoute(
           name: "home",
           path: '/',
           parentNavigatorKey: _shellNavigatorKey,
@@ -80,16 +88,6 @@ final router = GoRouter(
             child: HomePage(),
           ),
           routes: [
-            GoRoute(
-              name: "authentication",
-              path: 'authenticate',
-              parentNavigatorKey: _shellNavigatorKey,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: Scaffold(
-                  body: AuthPage(),
-                ),
-              ),
-            ),
             GoRoute(
               name: "cart",
               path: 'cart',
@@ -118,9 +116,7 @@ class LogoutButton extends StatelessWidget {
       return authProvider.isSignedIn()
           ? IconButton(
               icon: const Icon(Icons.logout),
-              color: MyApp.of(context).themeMode == ThemeMode.light
-                  ? Colors.black
-                  : Colors.amber,
+              color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
               onPressed: () async {
                 cartProvider.emptyCart();
                 await authProvider.logout();
@@ -142,17 +138,10 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light
-          ? Icons.dark_mode
-          : Icons.light_mode),
-      color: MyApp.of(context).themeMode == ThemeMode.light
-          ? Colors.black
-          : Colors.amber,
+      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+      color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
       onPressed: () {
-        MyApp.of(context).changeTheme(
-            MyApp.of(context).themeMode == ThemeMode.light
-                ? ThemeMode.dark
-                : ThemeMode.light);
+        MyApp.of(context).changeTheme(MyApp.of(context).themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
       },
     );
   }

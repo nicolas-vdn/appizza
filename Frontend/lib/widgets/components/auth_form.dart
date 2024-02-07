@@ -27,8 +27,8 @@ class _AuthFormState extends State<AuthForm> {
       AuthProvider user = Provider.of<AuthProvider>(context, listen: false);
       try {
         register
-            ? await user.signIn(_username, _password)
-            : await user.register(_username, _password);
+            ? await user.register(_username, _password)
+            : await user.signIn(_username, _password);
 
         if (context.mounted && user.isSignedIn()) {
           context.go('/');

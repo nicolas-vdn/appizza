@@ -12,7 +12,7 @@ class Pizza implements EntityInterface {
     return Pizza(
       id: map['id'],
       name: map['name'],
-      price: map['price'],
+      price: double.parse(map['price']),
     );
   }
 

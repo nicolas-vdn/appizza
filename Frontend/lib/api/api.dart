@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import '../library/config.dart';
 
 final api = Dio(
-  BaseOptions(baseUrl: apiUrl, headers: {'content-type': 'application/json'}),
+  BaseOptions(baseUrl: apiUrl, headers: {'Content-Type': 'application/json'}),
 )..interceptors.add(
     InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
