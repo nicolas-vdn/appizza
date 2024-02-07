@@ -22,7 +22,6 @@ class Pizza implements EntityInterface {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
       'price': price,
     };
   }

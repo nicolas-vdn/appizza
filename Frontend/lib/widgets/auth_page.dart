@@ -5,6 +5,8 @@ import 'components/auth_form.dart';
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
+  final bool _register = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(

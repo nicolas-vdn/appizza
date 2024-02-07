@@ -12,11 +12,6 @@ import '../widgets/home_page.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-const List<Widget> icons = <Widget>[
-  Icon(Icons.light_mode),
-  Icon(Icons.dark_mode),
-];
-
 // Router configuration
 final router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) async {
@@ -46,11 +41,11 @@ final router = GoRouter(
             appBar: AppBar(
               centerTitle: true,
               backgroundColor: Colors.transparent,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
+              leading: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: SizedBox(
                   width: 48,
-                  child: Image.asset('pizza.png'),
+                  child: Image(image: AssetImage('pizza.png')),
                 ),
               ),
               title: const Text('PizzApp'),
@@ -84,8 +79,10 @@ final router = GoRouter(
           name: "home",
           path: '/',
           parentNavigatorKey: _shellNavigatorKey,
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: HomePage(),
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: Scaffold(
+              body: HomePage(),
+            ),
           ),
           routes: [
             GoRoute(
@@ -112,11 +109,14 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
+    return Consumer2<AuthProvider, CartProvider>(
+        builder: (context, authProvider, cartProvider, child) {
       return authProvider.isSignedIn()
           ? IconButton(
               icon: const Icon(Icons.logout),
-              color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+              color: MyApp.of(context).themeMode == ThemeMode.light
+                  ? Colors.black
+                  : Colors.amber,
               onPressed: () async {
                 cartProvider.emptyCart();
                 await authProvider.logout();
@@ -138,10 +138,17 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
-      color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light
+          ? Icons.dark_mode
+          : Icons.light_mode),
+      color: MyApp.of(context).themeMode == ThemeMode.light
+          ? Colors.black
+          : Colors.amber,
       onPressed: () {
-        MyApp.of(context).changeTheme(MyApp.of(context).themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
+        MyApp.of(context).changeTheme(
+            MyApp.of(context).themeMode == ThemeMode.light
+                ? ThemeMode.dark
+                : ThemeMode.light);
       },
     );
   }
