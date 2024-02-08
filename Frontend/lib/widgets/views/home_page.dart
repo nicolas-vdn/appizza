@@ -75,7 +75,7 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
         return CarouselSlider(
           options: CarouselOptions(
             autoPlay: true,
-            height: MediaQuery.of(context).size.height,
+            height: 600,
             autoPlayInterval: const Duration(seconds: 10),
             enlargeCenterPage: true,
           ),
