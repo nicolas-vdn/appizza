@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/enums/breakpoints.dart';
 
 class Loader extends StatelessWidget {
   const Loader({
@@ -7,15 +8,20 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 128.0),
-          child: LinearProgressIndicator(),
-        ),
-        SizedBox(height: 16),
-        Text('Chargement...')
+        MediaQuery.of(context).size.width > Breakpoints.tablet.size
+            ? const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 128.0),
+                child: LinearProgressIndicator(),
+              )
+            : const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                child: CircularProgressIndicator(),
+              ),
+        const SizedBox(height: 16),
+        const Text('Chargement...')
       ],
     );
   }

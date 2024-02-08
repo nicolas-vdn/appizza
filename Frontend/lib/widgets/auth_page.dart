@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
-import 'classes/gradient_text.dart';
+import 'components/gradient_text.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -49,75 +49,74 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView( // Permet le scroll vertical sur petits écrans
+    return ListView(
+      // Permet le scroll vertical sur petits écrans
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              padding: const EdgeInsets.all(64.0),
               width: MediaQuery.of(context).size.width,
               constraints: const BoxConstraints(maxWidth: 800),
-              child: Padding(
-                padding: const EdgeInsets.all(64.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      WelcomeSection(register: _register),
-                      const SizedBox(
-                        height: 48.0,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    WelcomeSection(register: _register),
+                    const SizedBox(
+                      height: 48.0,
+                    ),
+                    TextFormField(
+                      onSaved: (String? value) {
+                        _username = value!;
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Nom d\'utilisateur',
+                        icon: Icon(Icons.person),
                       ),
-                      TextFormField(
-                        onSaved: (String? value) {
-                          _username = value!;
-                        },
-                        decoration: const InputDecoration(
-                          hintText: 'Nom d\'utilisateur',
-                          icon: Icon(Icons.person),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      obscureText: _isObscured,
+                      onSaved: (String? value) {
+                        _password = value!;
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isObscured = !_isObscured;
+                              });
+                            },
+                            icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                        hintText: 'Mot de passe',
+                        icon: const Icon(Icons.lock),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      TextFormField(
-                        obscureText: _isObscured,
-                        onSaved: (String? value) {
-                          _password = value!;
-                        },
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isObscured = !_isObscured;
-                                });
-                              },
-                              icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                          hintText: 'Mot de passe',
-                          icon: const Icon(Icons.lock),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                      ActionSection(
-                          register: _register,
-                          loading: _isLoading,
-                          switchForm: _switchRegister,
-                          submit: _onSubmit,
-                          formKey: _formKey)
-                    ],
-                  ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    ActionSection(
+                        register: _register,
+                        loading: _isLoading,
+                        switchForm: _switchRegister,
+                        submit: _onSubmit,
+                        formKey: _formKey)
+                  ],
                 ),
               ),
             ),
@@ -226,7 +225,10 @@ class _ActionSectionState extends State<ActionSection> {
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?"),
+              Text(
+                widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?",
+                textAlign: TextAlign.center,
+              ),
               TextButton(
                 onPressed: () {
                   widget.formKey.currentState?.reset();

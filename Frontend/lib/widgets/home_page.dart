@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/pizza_api.dart';
+import 'package:frontend/classes/interfaces/pizza.dart';
 import 'package:provider/provider.dart';
 
-import '../interfaces/pizza.dart';
 import '../providers/cart_provider.dart';
 import 'components/cart_content.dart';
 import 'components/loader.dart';
@@ -34,35 +34,31 @@ class _HomePageState extends State<HomePage> {
             return const Loader();
           default:
             if (snapshot.hasData) {
-              return LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      clipBehavior: Clip.none,
                       children: [
-                        Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          clipBehavior: Clip.none,
+                        Column(
                           children: [
-                            Column(
-                              children: [
-                                PizzaCarousel(pizzaList: snapshot.data!),
-                                const SizedBox(
-                                  height: 150,
-                                ),
-                              ],
-                            ),
-                            const Positioned(
-                              bottom: 0,
-                              child: CartContent(),
+                            PizzaCarousel(pizzaList: snapshot.data!),
+                            const SizedBox(
+                              height: 150,
                             ),
                           ],
                         ),
+                        const Positioned(
+                          bottom: 0,
+                          child: CartContent(),
+                        ),
                       ],
                     ),
-                  );
-                },
+                  ],
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(child: Text('${snapshot.error}'));
@@ -226,7 +222,9 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                           children: [
                             Text(
                               "4.3",
-                              style: TextStyle(color: Colors.white,),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                             Icon(
                               Icons.star,

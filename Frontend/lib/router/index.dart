@@ -17,20 +17,18 @@ final router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) async {
     var user = Provider.of<AuthProvider>(context, listen: false);
 
+    if (!user.isSignedIn()) {
+      await user.localSignIn();
+    }
     if (user.isSignedIn()) {
       if (state.fullPath == "/authenticate") {
         return '/';
       }
     } else {
-      await user.localSignIn();
-
-      if (!user.isSignedIn()) {
-        return '/authenticate';
-      }
+      return '/authenticate';
     }
     return null;
   },
-  initialLocation: "/authenticate",
   navigatorKey: _rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -71,9 +69,7 @@ final router = GoRouter(
           path: '/authenticate',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: Scaffold(
-              body: AuthPage(),
-            ),
+            child: AuthPage(),
           ),
         ),
         GoRoute(
@@ -81,9 +77,7 @@ final router = GoRouter(
           path: '/',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: Scaffold(
-              body: HomePage(),
-            ),
+            child: HomePage(),
           ),
           routes: [
             GoRoute(
@@ -91,9 +85,7 @@ final router = GoRouter(
               path: 'cart',
               parentNavigatorKey: _shellNavigatorKey,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: Scaffold(
-                  body: CartPage(),
-                ),
+                child: CartPage(),
               ),
             ),
           ],
