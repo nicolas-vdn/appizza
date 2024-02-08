@@ -183,7 +183,7 @@ class _ActionSectionState extends State<ActionSection> {
                 foregroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
               ),
-              onPressed: () {},
+              onPressed: () => widget.loading ? null : widget.submit(),
               icon: widget.loading
                   ? Container(
                       width: 24,
