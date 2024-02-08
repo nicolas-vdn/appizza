@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/api/pizza_api.dart';
-import 'package:frontend/classes/interfaces/pizza.dart';
+import 'package:frontend/classes/enums/breakpoints.dart';
+import 'package:frontend/widgets/components/card_gradient.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../api/pizza_api.dart';
+import '../../classes/interfaces/pizza.dart';
 import '../../providers/cart_provider.dart';
 import '../components/cart_content.dart';
 import '../components/loader.dart';
@@ -34,31 +37,16 @@ class _HomePageState extends State<HomePage> {
             return const Loader();
           default:
             if (snapshot.hasData) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      clipBehavior: Clip.none,
-                      children: [
-                        Column(
-                          children: [
-                            PizzaCarousel(pizzaList: snapshot.data!),
-                            const SizedBox(
-                              height: 150,
-                            ),
-                          ],
-                        ),
-                        const Positioned(
-                          bottom: 0,
-                          child: CartContent(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              return Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  PizzaCarousel(pizzaList: snapshot.data!),
+                  const Positioned(
+                    top: 16,
+                    child: CartContent(),
+                  ),
+                ],
               );
             } else if (snapshot.hasError) {
               return Center(child: Text('${snapshot.error}'));
@@ -84,35 +72,40 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cart, child) {
-        return CarouselSlider(
-          options: CarouselOptions(
-            height: 500.0,
-            enlargeCenterPage: true,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: CarouselSlider(
+            options: CarouselOptions(
+              autoPlay: true,
+              height: MediaQuery.of(context).size.height,
+              autoPlayInterval: const Duration(seconds: 10),
+              enlargeCenterPage: true,
+            ),
+            items: widget.pizzaList.map((pizza) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          Positioned(
+                            child: SlideLowerPart(pizza: pizza),
+                          ),
+                          Positioned(
+                            top: -100,
+                            child: SlideUpperPart(pizza: pizza),
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              );
+            }).toList(),
           ),
-          items: widget.pizzaList.map((pizza) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        Positioned(
-                          child: SlideLowerPart(pizza: pizza),
-                        ),
-                        Positioned(
-                          top: -100,
-                          child: SlideUpperPart(pizza: pizza),
-                        )
-                      ],
-                    ),
-                  ],
-                );
-              },
-            );
-          }).toList(),
         );
       },
     );
@@ -161,28 +154,9 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cart, child) {
-        return Container(
+        return CardGradient(
+          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [0.1, 0.9],
-              colors: [
-                Color.fromARGB(255, 204, 0, 0),
-                Color.fromARGB(255, 153, 0, 51),
-              ],
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 6.0,
-              ),
-            ],
-          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 32.0, top: 128, right: 32, bottom: 32),
             child: Column(
@@ -191,27 +165,32 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.pizza.name,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            children: [
+                              Text(
+                                widget.pizza.name,
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
-                          softWrap: true,
-                        ),
-                        Text(
-                          "${widget.pizza.price} €",
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          Text(
+                            "${widget.pizza.price} €",
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const Card(
                       color: Colors.transparent,
@@ -249,7 +228,10 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                         padding: const EdgeInsets.all(20),
                         shape: const CircleBorder(),
                       ),
-                      child: const Icon(Icons.remove),
+                      child: const Icon(
+                        Icons.remove,
+                        color: Colors.black,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -268,7 +250,10 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                         padding: const EdgeInsets.all(20),
                         shape: const CircleBorder(),
                       ),
-                      child: const Icon(Icons.add),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),

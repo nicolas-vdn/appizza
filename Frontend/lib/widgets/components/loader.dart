@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/classes/enums/breakpoints.dart';
+
+import '../../classes/enums/breakpoints.dart';
 
 class Loader extends StatelessWidget {
   const Loader({

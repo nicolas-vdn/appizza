@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
+import 'card_gradient.dart';
 
 class CartContent extends StatelessWidget {
   const CartContent({
@@ -12,43 +13,41 @@ class CartContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Card(
-        color: const Color.fromARGB(255, 153, 0, 51),
-        child: Consumer<CartProvider>(
-          builder: (context, cart, child) {
-            return Container(
-              // height: 200,
-              width: MediaQuery.of(context).size.width - 50,
-              child: ExpandablePanel(
-                header: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Center(
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.shopping_cart,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'Total : ${cart.total} €',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
+    return CardGradient(
+      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+      child: Consumer<CartProvider>(
+        builder: (context, cart, child) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width > 800 ? 750 : MediaQuery.of(context).size.width - 50,
+            child: ExpandablePanel(
+              header: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      ModalRoute.of(context)?.settings.name == "/home" ? OutlinedButton.icon(
+                        Text(
+                          '${cart.total} €',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (GoRouter.of(context).routeInformationProvider.value.uri.toString() == "/" &&
+                        cart.list.isNotEmpty) ...[
+                      OutlinedButton.icon(
                         label: const Text(
                           'Valider',
                           style: TextStyle(
@@ -57,23 +56,23 @@ class CartContent extends StatelessWidget {
                         ),
                         onPressed: () => context.go('/cart'),
                         icon: const Icon(
-                          Icons.arrow_forward,
+                          Icons.shopping_cart_checkout,
                           color: Colors.white,
                         ),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(width: 3.0, color: Colors.white),
                           padding: const EdgeInsets.all(16.0),
                         ),
-                      ) : SizedBox(child: Text("${ModalRoute.of(context)?.settings.name}")),
+                      ),
                     ],
-                  ),
+                  ],
                 ),
-                collapsed: const SizedBox(),
-                expanded: cart.list.isEmpty ? const SizedBox() : const ExpandedRecap(),
               ),
-            );
-          },
-        ),
+              collapsed: const SizedBox(),
+              expanded: cart.list.isEmpty ? const SizedBox() : const ExpandedRecap(),
+            ),
+          );
+        },
       ),
     );
   }
@@ -87,14 +86,15 @@ class ExpandedRecap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Divider(color: Colors.white),
         ),
         Container(
-          constraints: const BoxConstraints(
-            maxHeight: 256,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.20,
           ),
           child: Consumer<CartProvider>(
             builder: (context, cart, child) {
@@ -119,6 +119,7 @@ class ExpandedRecap extends StatelessWidget {
                           child: Center(
                             child: Text(
                               cart.list.keys.toList()[index].name,
+                              textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),

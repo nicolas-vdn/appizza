@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/views/cart_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +6,7 @@ import '../main.dart';
 import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/views/auth_page.dart';
+import '../widgets/views/cart_page.dart';
 import '../widgets/views/home_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -40,11 +40,11 @@ final router = GoRouter(
               scrolledUnderElevation: 0,
               centerTitle: true,
               backgroundColor: Colors.transparent,
-              leading: const Padding(
-                padding: EdgeInsets.all(8.0),
+              leading: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
                   width: 48,
-                  child: Image(image: AssetImage('pizza.png')),
+                  child: Image.asset("assets/images/pizza.png"),
                 ),
               ),
               title: const Text('PizzApp'),
@@ -59,7 +59,13 @@ final router = GoRouter(
                 ),
               ],
             ),
-            body: child,
+            body: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: child,
+              ),
+            ),
           ),
         );
       },

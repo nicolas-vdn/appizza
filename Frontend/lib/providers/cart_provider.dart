@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/classes/interfaces/pizza.dart';
+
+import '../classes/interfaces/pizza.dart';
 
 class CartProvider extends ChangeNotifier {
   final Map<Pizza, int> _list = {};
