@@ -39,6 +39,7 @@ final router = GoRouter(
         return NoTransitionPage(
           child: Scaffold(
             appBar: AppBar(
+              scrolledUnderElevation: 0,
               centerTitle: true,
               backgroundColor: Colors.transparent,
               leading: const Padding(

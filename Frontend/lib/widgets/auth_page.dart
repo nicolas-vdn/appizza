@@ -49,71 +49,79 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return ListView( // Permet le scroll vertical sur petits écrans
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  WelcomeSection(register: _register),
-                  const SizedBox(
-                    height: 64.0,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: Padding(
+                padding: const EdgeInsets.all(64.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      WelcomeSection(register: _register),
+                      const SizedBox(
+                        height: 48.0,
+                      ),
+                      TextFormField(
+                        onSaved: (String? value) {
+                          _username = value!;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Nom d\'utilisateur',
+                          icon: Icon(Icons.person),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      TextFormField(
+                        obscureText: _isObscured,
+                        onSaved: (String? value) {
+                          _password = value!;
+                        },
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isObscured = !_isObscured;
+                                });
+                              },
+                              icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                          hintText: 'Mot de passe',
+                          icon: const Icon(Icons.lock),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                      ActionSection(
+                          register: _register,
+                          loading: _isLoading,
+                          switchForm: _switchRegister,
+                          submit: _onSubmit,
+                          formKey: _formKey)
+                    ],
                   ),
-                  TextFormField(
-                    onSaved: (String? value) {
-                      _username = value!;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Nom d\'utilisateur',
-                      icon: Icon(Icons.person),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    obscureText: _isObscured,
-                    onSaved: (String? value) {
-                      _password = value!;
-                    },
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isObscured = !_isObscured;
-                            });
-                          },
-                          icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                      hintText: 'Mot de passe',
-                      icon: const Icon(Icons.lock),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  ActionSection(
-                      register: _register, loading: _isLoading, switchForm: _switchRegister, submit: _onSubmit)
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
@@ -149,12 +157,18 @@ class _WelcomeSectionState extends State<WelcomeSection> {
 
 class ActionSection extends StatefulWidget {
   const ActionSection(
-      {super.key, required this.register, required this.loading, required this.switchForm, required this.submit});
+      {super.key,
+      required this.register,
+      required this.loading,
+      required this.switchForm,
+      required this.submit,
+      required this.formKey});
 
   final bool register;
   final bool loading;
   final Function switchForm;
   final Function submit;
+  final GlobalKey<FormState> formKey;
 
   @override
   State<ActionSection> createState() => _ActionSectionState();
@@ -178,6 +192,7 @@ class _ActionSectionState extends State<ActionSection> {
             ),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 padding: const EdgeInsets.all(16.0),
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
@@ -213,7 +228,10 @@ class _ActionSectionState extends State<ActionSection> {
             children: [
               Text(widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?"),
               TextButton(
-                onPressed: () => widget.switchForm(),
+                onPressed: () {
+                  widget.formKey.currentState?.reset();
+                  widget.switchForm();
+                },
                 child: GradientText(
                   widget.register ? "Se connecter" : "S'inscrire",
                   gradient: const LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
