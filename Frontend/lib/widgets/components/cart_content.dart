@@ -42,28 +42,29 @@ class CartContent extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
+                                color: Colors.white,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      OutlinedButton.icon(
+                      ModalRoute.of(context)?.settings.name == "/home" ? OutlinedButton.icon(
                         label: const Text(
                           'Valider',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 204, 0, 0),
+                            color: Colors.white,
                           ),
                         ),
                         onPressed: () => context.go('/cart'),
                         icon: const Icon(
                           Icons.arrow_forward,
-                          color: Color.fromARGB(255, 204, 0, 0),
+                          color: Colors.white,
                         ),
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(width: 3.0, color: Color.fromARGB(255, 204, 0, 0)),
-                          padding: const EdgeInsets.all(8.0),
+                          side: const BorderSide(width: 3.0, color: Colors.white),
+                          padding: const EdgeInsets.all(16.0),
                         ),
-                      )
+                      ) : SizedBox(child: Text("${ModalRoute.of(context)?.settings.name}")),
                     ],
                   ),
                 ),
@@ -89,7 +90,7 @@ class ExpandedRecap extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Divider(color: Colors.black),
+          child: Divider(color: Colors.white),
         ),
         Container(
           constraints: const BoxConstraints(
@@ -110,7 +111,7 @@ class ExpandedRecap extends StatelessWidget {
                           child: Center(
                             child: Text(
                               '${cart.list.values.toList()[index]} x',
-                              style: const TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ),
@@ -118,7 +119,7 @@ class ExpandedRecap extends StatelessWidget {
                           child: Center(
                             child: Text(
                               cart.list.keys.toList()[index].name,
-                              style: const TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ),
@@ -126,7 +127,7 @@ class ExpandedRecap extends StatelessWidget {
                           child: Center(
                             child: Text(
                               '${cart.list.keys.toList()[index].price} €',
-                              style: const TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         )

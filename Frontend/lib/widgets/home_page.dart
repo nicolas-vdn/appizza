@@ -200,12 +200,20 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                       children: [
                         Text(
                           widget.pizza.name,
-                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                           softWrap: true,
                         ),
                         Text(
                           "${widget.pizza.price} €",
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
@@ -215,7 +223,16 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                         padding: EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [Text("4.3"), Icon(Icons.star)],
+                          children: [
+                            Text(
+                              "4.3",
+                              style: TextStyle(color: Colors.white,),
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.white,
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -240,7 +257,10 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         '${cart.quantityOf(widget.pizza)}',
-                        style: const TextStyle(fontSize: 25),
+                        style: const TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     ElevatedButton(
