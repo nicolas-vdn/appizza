@@ -4,9 +4,9 @@ import 'package:frontend/api/pizza_api.dart';
 import 'package:frontend/classes/interfaces/pizza.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart_provider.dart';
-import 'components/cart_content.dart';
-import 'components/loader.dart';
+import '../../providers/cart_provider.dart';
+import '../components/cart_content.dart';
+import '../components/loader.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

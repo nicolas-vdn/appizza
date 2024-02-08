@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/auth_provider.dart';
-import 'components/gradient_text.dart';
+import '../../providers/auth_provider.dart';
+import '../utils/gradient_text.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

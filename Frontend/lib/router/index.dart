@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/cart_page.dart';
+import 'package:frontend/widgets/views/cart_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
-import '../widgets/auth_page.dart';
-import '../widgets/home_page.dart';
+import '../widgets/views/auth_page.dart';
+import '../widgets/views/home_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
