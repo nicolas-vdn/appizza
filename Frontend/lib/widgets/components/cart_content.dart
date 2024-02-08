@@ -17,8 +17,9 @@ class CartContent extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(16.0)),
       child: Consumer<CartProvider>(
         builder: (context, cart, child) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width > 800 ? 750 : MediaQuery.of(context).size.width - 50,
+          return Container(
+            width: MediaQuery.of(context).size.width - 50,
+            constraints: const BoxConstraints(maxWidth: 750),
             child: ExpandablePanel(
               header: Padding(
                 padding: const EdgeInsets.all(16.0),

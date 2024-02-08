@@ -72,40 +72,37 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cart, child) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              height: MediaQuery.of(context).size.height,
-              autoPlayInterval: const Duration(seconds: 10),
-              enlargeCenterPage: true,
-            ),
-            items: widget.pizzaList.map((pizza) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: AlignmentDirectional.topCenter,
-                        children: [
-                          Positioned(
-                            child: SlideLowerPart(pizza: pizza),
-                          ),
-                          Positioned(
-                            top: -100,
-                            child: SlideUpperPart(pizza: pizza),
-                          )
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              );
-            }).toList(),
+        return CarouselSlider(
+          options: CarouselOptions(
+            autoPlay: true,
+            height: MediaQuery.of(context).size.height,
+            autoPlayInterval: const Duration(seconds: 10),
+            enlargeCenterPage: true,
           ),
+          items: widget.pizzaList.map((pizza) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        Positioned(
+                          child: SlideLowerPart(pizza: pizza),
+                        ),
+                        Positioned(
+                          top: -100,
+                          child: SlideUpperPart(pizza: pizza),
+                        )
+                      ],
+                    ),
+                  ],
+                );
+              },
+            );
+          }).toList(),
         );
       },
     );
