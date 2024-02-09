@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-import 'package:frontend/interfaces/order_content.dart';
+import 'package:frontend/classes/interfaces/order_content.dart';
 
 import 'entity_interface.dart';
 
