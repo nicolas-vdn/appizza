@@ -5,15 +5,11 @@ import '../api/user_api.dart';
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
-  final bool _error = false;
-  final bool _loading = false;
 
   String? get token => _token;
 
-  bool get error => _error;
-
   bool isSignedIn() {
-    return _token != null ? true : false;
+    return _token != null;
   }
 
   Future<void> register(String username, String password) async {

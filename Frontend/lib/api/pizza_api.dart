@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../interfaces/pizza.dart';
+import '../classes/interfaces/pizza.dart';
 import 'api.dart';
 
 class PizzaApi {

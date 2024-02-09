@@ -1,42 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/cart_page.dart';
 import 'package:frontend/widgets/orders_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
 import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
-import '../widgets/auth_page.dart';
-import '../widgets/home_page.dart';
+import '../providers/theme_provider.dart';
+import '../widgets/views/auth_page.dart';
+import '../widgets/views/cart_page.dart';
+import '../widgets/views/home_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-const List<Widget> icons = <Widget>[
-  Icon(Icons.light_mode),
-  Icon(Icons.dark_mode),
-];
-
 // Router configuration
 final router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) async {
-    var user = Provider.of<AuthProvider>(context, listen: false);
+    AuthProvider user = Provider.of<AuthProvider>(context, listen: false);
 
+    if (!user.isSignedIn()) {
+      await user.localSignIn();
+    }
     if (user.isSignedIn()) {
       if (state.fullPath == "/authenticate") {
         return '/';
       }
     } else {
-      await user.localSignIn();
-
-      if (!user.isSignedIn()) {
-        return '/authenticate';
-      }
+      return '/authenticate';
     }
     return null;
   },
-  initialLocation: "/authenticate",
   navigatorKey: _rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -45,28 +38,34 @@ final router = GoRouter(
         return NoTransitionPage(
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading:
+                  Provider.of<AuthProvider>(context, listen: false).isSignedIn(),
+              scrolledUnderElevation: 0,
               centerTitle: true,
               backgroundColor: Colors.transparent,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 48,
-                  child: Image.asset('pizza.png'),
-                ),
+              title: SizedBox(
+                width: 48,
+                child: Image.asset("assets/images/pizza.png"),
               ),
-              title: const Text('PizzApp'),
-              actions: const [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ThemeButton(),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: LogoutButton(),
-                ),
+              actions: [
+                Consumer<AuthProvider>(builder: (context, provider, child) {
+                  return provider.isSignedIn()
+                      ? const SizedBox()
+                      : const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ThemeButton(),
+                        );
+                }),
               ],
             ),
-            body: child,
+            drawer: const LeftDrawer(),
+            body: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: child,
+              ),
+            ),
           ),
         );
       },
@@ -76,9 +75,7 @@ final router = GoRouter(
           path: '/authenticate',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: Scaffold(
-              body: AuthPage(),
-            ),
+            child: AuthPage(),
           ),
         ),
         GoRoute(
@@ -94,9 +91,7 @@ final router = GoRouter(
               path: 'cart',
               parentNavigatorKey: _shellNavigatorKey,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: Scaffold(
-                  body: CartPage(),
-                ),
+                child: CartPage(),
               ),
             ),
             GoRoute(
@@ -115,28 +110,78 @@ final router = GoRouter(
   ],
 );
 
-class LogoutButton extends StatelessWidget {
-  const LogoutButton({
+class LeftDrawer extends StatelessWidget {
+  const LeftDrawer({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
-      return authProvider.isSignedIn()
-          ? IconButton(
-              icon: const Icon(Icons.logout),
-              color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
-              onPressed: () async {
-                cartProvider.emptyCart();
-                await authProvider.logout();
-                if (context.mounted) {
-                  context.go("/authenticate");
-                }
-              },
-            )
-          : const SizedBox();
-    });
+    return Drawer(
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 64.0),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.navigate_next),
+                  title: const Text('Historique'),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+            return Column(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
+                    color: themeProvider.themeMode == ThemeMode.light
+                        ? Colors.deepPurple
+                        : Colors.amber,
+                  ),
+                  title: const Text('Theme'),
+                  onTap: () => themeProvider.switchThemeMode(context),
+                ),
+                Consumer2<AuthProvider, CartProvider>(
+                    builder: (context, authProvider, cartProvider, child) {
+                  return ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    onTap: () async {
+                      cartProvider.emptyCart();
+                      await authProvider.logout();
+                      if (context.mounted) {
+                        context.go("/authenticate");
+                        Navigator.pop(context);
+                      }
+                    },
+                  );
+                }),
+              ],
+            );
+          }),
+        ],
+      ),
+    );
   }
 }
 
@@ -147,12 +192,14 @@ class ThemeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
-      color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
-      onPressed: () {
-        MyApp.of(context).changeTheme(MyApp.of(context).themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
-      },
-    );
+    return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+      return IconButton(
+        icon: Icon(themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+        color: themeProvider.themeMode == ThemeMode.light ? Colors.deepPurple : Colors.amber,
+        onPressed: () {
+          themeProvider.switchThemeMode(context);
+        },
+      );
+    });
   }
 }

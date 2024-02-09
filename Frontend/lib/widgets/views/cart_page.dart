@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/components/cart_content.dart';
 import 'package:go_router/go_router.dart';
+
+import '../components/cart_content.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -9,9 +10,7 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconButton(
-            onPressed: () => context.go('/'),
-            icon: const Icon(Icons.arrow_back)),
+        IconButton(onPressed: () => context.go('/'), icon: const Icon(Icons.arrow_back)),
         const CartContent(),
         Expanded(
           child: Form(
@@ -36,10 +35,9 @@ class CartPage extends StatelessWidget {
                   ),
                   FilledButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                          Theme.of(context).colorScheme.surfaceTint),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0))),
+                      backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
+                      shape:
+                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
                     ),
                     onPressed: null,
                     child: const Text('Commander'),
