@@ -28,7 +28,9 @@ class _AuthPageState extends State<AuthPage> {
 
       AuthProvider user = Provider.of<AuthProvider>(context, listen: false);
       try {
-        _register ? await user.register(_username, _password) : await user.signIn(_username, _password);
+        _register
+            ? await user.register(_username, _password)
+            : await user.signIn(_username, _password);
 
         if (context.mounted && user.isSignedIn()) {
           context.go('/');
@@ -93,7 +95,9 @@ class _AuthPageState extends State<AuthPage> {
                             _isObscured = !_isObscured;
                           });
                         },
-                        icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                        icon: _isObscured
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off)),
                     hintText: 'Mot de passe',
                     icon: const Icon(Icons.lock),
                   ),
@@ -131,17 +135,16 @@ class WelcomeSection extends StatefulWidget {
 class _WelcomeSectionState extends State<WelcomeSection> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.register ? "Bienvenue" : "Bon retour",
-              style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, fontWeightDelta: 2)),
-          Text(widget.register ? "Créez un nouveau compte" : "Connectez vous pour continuer",
-              style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.register ? "Bienvenue" : "Bon retour",
+            style: DefaultTextStyle.of(context)
+                .style
+                .apply(fontSizeFactor: 2.0, fontWeightDelta: 2)),
+        Text(widget.register ? "Créez un nouveau compte" : "Connectez vous pour continuer",
+            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
+      ],
     );
   }
 }
@@ -218,7 +221,9 @@ class _ActionSectionState extends State<ActionSection> {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?",
+                widget.register
+                    ? "Vous possédez déjà un compte ?"
+                    : "Vous ne possédez pas de compte ?",
                 textAlign: TextAlign.center,
               ),
               TextButton(
@@ -228,10 +233,13 @@ class _ActionSectionState extends State<ActionSection> {
                 },
                 child: GradientText(
                   widget.register ? "Se connecter" : "S'inscrire",
-                  gradient: const LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                    Color.fromARGB(255, 204, 0, 0),
-                    Color.fromARGB(255, 153, 0, 51),
-                  ]),
+                  gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(255, 204, 0, 0),
+                        Color.fromARGB(255, 153, 0, 51),
+                      ]),
                 ),
               )
             ],

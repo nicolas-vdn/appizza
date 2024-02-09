@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
 import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
+import '../providers/theme_provider.dart';
 import '../widgets/views/auth_page.dart';
 import '../widgets/views/cart_page.dart';
 import '../widgets/views/home_page.dart';
@@ -108,11 +108,12 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
+    return Consumer3<ThemeProvider, AuthProvider, CartProvider>(
+        builder: (context, themeProvider, authProvider, cartProvider, child) {
       return authProvider.isSignedIn()
           ? IconButton(
               icon: const Icon(Icons.logout),
-              color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+              color: themeProvider.themeMode == ThemeMode.light ? Colors.black : Colors.amber,
               onPressed: () async {
                 cartProvider.emptyCart();
                 await authProvider.logout();
@@ -133,13 +134,15 @@ class ThemeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(MyApp.of(context).themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
-      color: MyApp.of(context).themeMode == ThemeMode.light ? Colors.black : Colors.amber,
-      onPressed: () {
-        MyApp.of(context)
-            .changeTheme(MyApp.of(context).themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
-      },
-    );
+    return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+      return IconButton(
+        icon: Icon(themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+        color: themeProvider.themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+        onPressed: () {
+          themeProvider.setThemeMode(
+              themeProvider.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
+        },
+      );
+    });
   }
 }
