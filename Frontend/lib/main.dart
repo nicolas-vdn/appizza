@@ -1,50 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/providers/auth_provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:frontend/providers/auth_provider.dart';
+import 'package:frontend/providers/cart_provider.dart';
+import 'package:frontend/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'router/index.dart';
 
 void main() {
   usePathUrlStrategy();
-  runApp(ChangeNotifierProvider(
-      create: (context) => AuthProvider(), child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => CartProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
-}
-
-class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
-
-  ThemeMode get themeMode => _themeMode;
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Pizzapp',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.light)),
-      darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.dark)),
-      themeMode: _themeMode,
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-    );
-  }
-
-  void changeTheme(ThemeMode themeMode) {
-    setState(() {
-      _themeMode = themeMode;
+    return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+      return MaterialApp.router(
+        title: 'PizzApp',
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeProvider.themeMode,
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
+      );
     });
   }
 }
