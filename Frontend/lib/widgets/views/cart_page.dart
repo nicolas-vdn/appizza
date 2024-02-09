@@ -33,14 +33,32 @@ class CartPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                  FilledButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 204, 0, 0),
+                        Color.fromARGB(255, 153, 0, 51),
+                      ]),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    onPressed: null,
-                    child: const Text('Commander'),
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.all(16.0),
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.checklist,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        "Commander",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
                   ),
                 ],
               ),

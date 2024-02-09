@@ -6,26 +6,7 @@ enum Breakpoints {
   laptop(1024),
   laptopL(1440);
 
-  const Breakpoints(this.value);
+  const Breakpoints(this.size);
 
-  final num value;
-}
-
-extension BreakpointsExtension on Breakpoints {
-  num get size {
-    switch (this) {
-      case Breakpoints.mobileS:
-        return Breakpoints.mobileS.value;
-      case Breakpoints.mobileM:
-        return Breakpoints.mobileM.value;
-      case Breakpoints.mobileL:
-        return Breakpoints.mobileL.value;
-      case Breakpoints.tablet:
-        return Breakpoints.tablet.value;
-      case Breakpoints.laptop:
-        return Breakpoints.laptop.value;
-      case Breakpoints.laptopL:
-        return Breakpoints.laptopL.value;
-    }
-  }
+  final num size;
 }

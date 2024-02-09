@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
-import 'card_gradient.dart';
+import '../utils/card_gradient.dart';
 
 class CartContent extends StatelessWidget {
   const CartContent({
