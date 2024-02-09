@@ -1,8 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -15,9 +15,8 @@ export class AuthGuard implements CanActivate {
     const token = request.headers.authorization;
 
     if (!token || token.split(' ')[0] !== 'Bearer') {
-      throw new UnauthorizedException('missing auth token');
+      throw new ForbiddenException('missing auth token');
     }
-
 
     try {
       const payload = await this.jwtService.verifyAsync(token.split(' ')[1], {
@@ -26,7 +25,7 @@ export class AuthGuard implements CanActivate {
       console.log(payload);
       request.body['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
     return true;
   }

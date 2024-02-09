@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/cart_page.dart';
+import 'package:frontend/widgets/orders_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -84,7 +85,7 @@ final router = GoRouter(
           name: "home",
           path: '/',
           parentNavigatorKey: _shellNavigatorKey,
-          pageBuilder: (context, state) => NoTransitionPage(
+          pageBuilder: (context, state) => const NoTransitionPage(
             child: HomePage(),
           ),
           routes: [
@@ -98,6 +99,15 @@ final router = GoRouter(
                 ),
               ),
             ),
+            GoRoute(
+              name: "orders",
+              path: 'orders',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: Scaffold(
+                  body: OrderPage(),
+                ))
+            )
           ],
         ),
       ],

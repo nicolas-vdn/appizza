@@ -6,10 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Pizza } from '../entities/pizza.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Pizza]),
-    ConfigModule.forRoot()
-  ],
+  imports: [TypeOrmModule.forFeature([Pizza]), ConfigModule.forRoot()],
   controllers: [PizzaController],
   providers: [PizzaService],
 })
