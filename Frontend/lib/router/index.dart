@@ -139,8 +139,7 @@ class ThemeButton extends StatelessWidget {
         icon: Icon(themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
         color: themeProvider.themeMode == ThemeMode.light ? Colors.black : Colors.amber,
         onPressed: () {
-          themeProvider.setThemeMode(
-              themeProvider.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
+          themeProvider.switchThemeMode(context);
         },
       );
     });
