@@ -27,5 +27,7 @@ class ThemeProvider with ChangeNotifier {
     if (isDark != null) {
       _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     }
+
+    notifyListeners();
   }
 }

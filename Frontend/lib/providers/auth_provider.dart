@@ -9,7 +9,7 @@ class AuthProvider extends ChangeNotifier {
   String? get token => _token;
 
   bool isSignedIn() {
-    return _token != null ? true : false;
+    return _token != null;
   }
 
   Future<void> register(String username, String password) async {

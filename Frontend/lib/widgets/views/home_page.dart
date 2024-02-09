@@ -1,9 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/classes/enums/breakpoints.dart';
 import 'package:frontend/widgets/components/card_gradient.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../api/pizza_api.dart';
 import '../../classes/interfaces/pizza.dart';
@@ -75,7 +73,7 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
         return CarouselSlider(
           options: CarouselOptions(
             autoPlay: true,
-            height: 600,
+            height: 550,
             autoPlayInterval: const Duration(seconds: 10),
             enlargeCenterPage: true,
           ),
@@ -124,8 +122,7 @@ class _SlideUpperPartState extends State<SlideUpperPart> {
     return SizedBox(
       width: 200,
       height: 200,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
+      child: ClipOval(
         child: Image.network(
           widget.pizza.url,
           width: 200.0,
