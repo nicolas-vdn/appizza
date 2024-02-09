@@ -144,7 +144,9 @@ class LeftDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(
                     themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
-                    color: themeProvider.themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+                    color: themeProvider.themeMode == ThemeMode.light
+                        ? Colors.deepPurple
+                        : Colors.amber,
                   ),
                   title: const Text('Theme'),
                   onTap: () => themeProvider.switchThemeMode(context),
@@ -183,7 +185,7 @@ class ThemeButton extends StatelessWidget {
     return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
       return IconButton(
         icon: Icon(themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
-        color: themeProvider.themeMode == ThemeMode.light ? Colors.black : Colors.amber,
+        color: themeProvider.themeMode == ThemeMode.light ? Colors.deepPurple : Colors.amber,
         onPressed: () {
           themeProvider.switchThemeMode(context);
         },
