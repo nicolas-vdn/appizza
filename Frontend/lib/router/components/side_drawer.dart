@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/utils/card_gradient.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -13,66 +14,87 @@ class SideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      width: 200,
+    return const Drawer(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 64.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  backgroundImage:
-                      NetworkImage('https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Divider(),
-                ),
-              ],
-            ),
+          BuildHeader(),
+          BuildMenu(),
+        ],
+      ),
+    );
+  }
+}
+
+class BuildMenu extends StatelessWidget {
+  const BuildMenu({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Wrap(
+        runSpacing: 8,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text('Historique'),
+            onTap: () {},
           ),
-          Expanded(
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.navigate_next),
-                  title: const Text('Historique'),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
+          const Divider(),
           Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
-            return Column(
-              children: [
-                ListTile(
-                  leading: Icon(
-                    themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
-                    color: themeProvider.themeMode == ThemeMode.light ? Colors.deepPurple : Colors.amber,
-                  ),
-                  title: const Text('Theme'),
-                  onTap: () => themeProvider.switchThemeMode(context),
-                ),
-                Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
-                  return ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Logout'),
-                    onTap: () async {
-                      cartProvider.emptyCart();
-                      await authProvider.logout();
-                      if (context.mounted) {
-                        context.go("/authenticate");
-                        Navigator.pop(context);
-                      }
-                    },
-                  );
-                }),
-              ],
+            return ListTile(
+              leading: Icon(
+                themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
+                color: themeProvider.themeMode == ThemeMode.light ? Colors.deepPurple : Colors.amber,
+              ),
+              title: const Text('Theme'),
+              onTap: () => themeProvider.switchThemeMode(context),
+            );
+          }),
+          Consumer3<ThemeProvider, AuthProvider, CartProvider>(
+              builder: (context, themeProvider, authProvider, cartProvider, child) {
+            return ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () async {
+                cartProvider.emptyCart();
+                await authProvider.logout();
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  context.go("/authenticate");
+                }
+              },
             );
           }),
         ],
+      ),
+    );
+  }
+}
+
+class BuildHeader extends StatelessWidget {
+  const BuildHeader({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CardGradient(
+      child: Padding(
+        padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 16),
+        child: const Column(
+          children: [
+            CircleAvatar(
+              backgroundImage:
+                  NetworkImage('https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
+            ),
+            SizedBox(height: 8.0),
+            Text('Compte', style: TextStyle(fontSize: 20, color: Colors.white))
+          ],
+        ),
       ),
     );
   }
