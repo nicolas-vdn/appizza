@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/utils/card_gradient.dart';
+import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/pizza_api.dart';
@@ -26,23 +26,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<Pizza>>(
-        future: _pizzaList,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Loader();
-            default:
-              if (snapshot.hasData) {
-                return PizzaCarousel(pizzaList: snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-          }
-          return const Loader();
-        },
-      ),
+    return FutureBuilder<List<Pizza>>(
+      future: _pizzaList,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Loader();
+          default:
+            if (snapshot.hasData) {
+              return PizzaCarousel(pizzaList: snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+        }
+        return const Loader();
+      },
     );
   }
 }

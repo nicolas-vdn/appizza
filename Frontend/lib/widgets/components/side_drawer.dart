@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/utils/card_gradient.dart';
+import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 

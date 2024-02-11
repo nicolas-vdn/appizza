@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/classes/enums/breakpoints.dart';
-import 'package:frontend/router/desktop/desktop_scaffold.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +9,6 @@ import '../widgets/components/side_drawer.dart';
 import '../widgets/views/auth_page.dart';
 import '../widgets/views/cart_page.dart';
 import '../widgets/views/home_page.dart';
-import 'mobile/mobile_scaffold.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -39,13 +36,28 @@ final router = GoRouter(
       navigatorKey: _shellNavigatorKey,
       pageBuilder: (context, state, child) {
         return NoTransitionPage(
-          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-            if (constraints.maxWidth > Breakpoints.tablet.size) {
-              return DesktopScaffold(constraints: constraints, child: child);
-            } else {
-              return MobileScaffold(constraints: constraints, child: child);
-            }
-          }),
+          child: Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarIconBrightness:
+                      Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+                  statusBarColor: Colors.transparent),
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => context.go("/"),
+              ),
+              title: SizedBox(
+                width: 48,
+                child: Image.asset("assets/images/app_pizza.png"),
+              ),
+            ),
+            body: SafeArea(
+              child: child,
+            ),
+          ),
         );
       },
       routes: [
@@ -61,10 +73,16 @@ final router = GoRouter(
     GoRoute(
       name: "authentication",
       path: '/authenticate',
-      pageBuilder: (context, state) => const NoTransitionPage(
+      pageBuilder: (context, state) => NoTransitionPage(
         child: Scaffold(
           body: SafeArea(
-            child: AuthPage(),
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: const AuthPage(),
+              ),
+            ),
           ),
         ),
       ),
@@ -95,7 +113,9 @@ final router = GoRouter(
           ),
           drawer: const SideDrawer(),
           body: const SafeArea(
-            child: HomePage(),
+            child: Center(
+              child: HomePage(),
+            ),
           ),
         ),
       ),

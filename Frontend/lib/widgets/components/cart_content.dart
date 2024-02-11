@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
-import '../utils/card_gradient.dart';
+import '../utils/gradient_card.dart';
 
 class CartContent extends StatelessWidget {
   const CartContent({

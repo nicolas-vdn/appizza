@@ -29,7 +29,7 @@ class CartButton extends StatelessWidget {
                       context: context,
                       builder: (context) => Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

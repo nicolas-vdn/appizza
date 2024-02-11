@@ -20,9 +20,8 @@ class ThemeProvider with ChangeNotifier {
 
     if (isDark != null) {
       setThemeMode(isDark);
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   Future<void> switchThemeMode(BuildContext context) async {
