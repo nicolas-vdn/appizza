@@ -1,6 +1,5 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
@@ -46,26 +45,6 @@ class CartContent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (GoRouter.of(context).routeInformationProvider.value.uri.toString() == "/" &&
-                        cart.list.isNotEmpty) ...[
-                      OutlinedButton.icon(
-                        label: const Text(
-                          'Valider',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () => context.go('/cart'),
-                        icon: const Icon(
-                          Icons.shopping_cart_checkout,
-                          color: Colors.white,
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(width: 3.0, color: Colors.white),
-                          padding: const EdgeInsets.all(16.0),
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),

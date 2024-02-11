@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../components/cart_content.dart';
 
@@ -8,14 +7,13 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(onPressed: () => context.go('/'), icon: const Icon(Icons.arrow_back)),
-        const CartContent(),
-        Expanded(
-          child: Form(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        children: [
+          const CartContent(),
+          Expanded(
+            child: Form(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -51,7 +49,7 @@ class CartPage extends StatelessWidget {
                       ),
                       onPressed: () {},
                       icon: const Icon(
-                        Icons.checklist,
+                        Icons.paypal,
                         color: Colors.white,
                       ),
                       label: const Text(
@@ -64,8 +62,8 @@ class CartPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
