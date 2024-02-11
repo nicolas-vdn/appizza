@@ -21,6 +21,7 @@ class CartAction extends StatelessWidget {
                   ? const Icon(Icons.shopping_cart_checkout, key: ValueKey('filled'))
                   : const Icon(Icons.shopping_cart_outlined, key: ValueKey('empty')),
             ),
+            enableFeedback: cart.totalQuantity() > 0,
             onPressed: () => cart.totalQuantity() > 0 ? context.go('/cart') : null,
           ),
         ],

@@ -32,7 +32,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
           children: [
             SizedBox(
               width: 48,
-              child: Image.asset("assets/images/pizza.png"),
+              child: Image.asset("assets/images/app_pizza.png"),
             ),
           ],
         ),

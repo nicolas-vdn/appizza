@@ -27,14 +27,15 @@ class _MobileScaffoldState extends State<MobileScaffold> {
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarIconBrightness:
-                Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark),
+                Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+            statusBarColor: Colors.transparent),
         automaticallyImplyLeading: Provider.of<AuthProvider>(context, listen: false).isSignedIn(),
         scrolledUnderElevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: SizedBox(
           width: 48,
-          child: Image.asset("assets/images/pizza.png"),
+          child: Image.asset("assets/images/app_pizza.png"),
         ),
         actions: [
           Consumer<AuthProvider>(builder: (context, provider, child) {
