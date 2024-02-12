@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -14,23 +15,27 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
+  final FocusNode focusNode = FocusNode();
 
-  late String _username;
-  late String _password;
+  late String _username, _password;
   bool _register = false;
   bool _isLoading = false;
   bool _isObscured = true;
 
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
+      //Ferme le keyboard sur mobile
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+
       setState(() => _isLoading = true);
       _formKey.currentState!.save();
 
       AuthProvider user = Provider.of<AuthProvider>(context, listen: false);
       try {
-        _register
-            ? await user.register(_username, _password)
-            : await user.signIn(_username, _password);
+        _register ? await user.register(_username, _password) : await user.signIn(_username, _password);
 
         if (context.mounted && user.isSignedIn()) {
           context.go('/');
@@ -54,7 +59,7 @@ class _AuthPageState extends State<AuthPage> {
     return Center(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(64.0),
+          padding: const EdgeInsets.all(32.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -83,37 +88,44 @@ class _AuthPageState extends State<AuthPage> {
                 const SizedBox(
                   height: 8,
                 ),
-                TextFormField(
-                  obscureText: _isObscured,
-                  onSaved: (String? value) {
-                    _password = value!;
-                  },
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isObscured = !_isObscured;
-                          });
-                        },
-                        icon: _isObscured
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off)),
-                    hintText: 'Mot de passe',
-                    icon: const Icon(Icons.lock),
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                KeyboardListener(
+                  focusNode: focusNode,
+                  onKeyEvent: (event) {
+                    if (event.logicalKey == LogicalKeyboardKey.enter) {
+                      _onSubmit();
                     }
-                    return null;
                   },
+                  child: TextFormField(
+                    obscureText: _isObscured,
+                    onSaved: (String? value) {
+                      _password = value!;
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscured = !_isObscured;
+                            });
+                          },
+                          icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                      hintText: 'Mot de passe',
+                      icon: const Icon(Icons.lock),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 ActionSection(
-                    register: _register,
-                    loading: _isLoading,
-                    switchForm: _switchRegister,
-                    submit: _onSubmit,
-                    formKey: _formKey)
+                  register: _register,
+                  loading: _isLoading,
+                  switchForm: _switchRegister,
+                  submit: _onSubmit,
+                  formKey: _formKey,
+                )
               ],
             ),
           ),
@@ -139,9 +151,7 @@ class _WelcomeSectionState extends State<WelcomeSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.register ? "Bienvenue" : "Bon retour",
-            style: DefaultTextStyle.of(context)
-                .style
-                .apply(fontSizeFactor: 2.0, fontWeightDelta: 2)),
+            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, fontWeightDelta: 2)),
         Text(widget.register ? "Créez un nouveau compte" : "Connectez vous pour continuer",
             style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
       ],
@@ -158,10 +168,8 @@ class ActionSection extends StatefulWidget {
       required this.submit,
       required this.formKey});
 
-  final bool register;
-  final bool loading;
-  final Function switchForm;
-  final Function submit;
+  final bool register, loading;
+  final Function switchForm, submit;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -221,9 +229,7 @@ class _ActionSectionState extends State<ActionSection> {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                widget.register
-                    ? "Vous possédez déjà un compte ?"
-                    : "Vous ne possédez pas de compte ?",
+                widget.register ? "Vous possédez déjà un compte ?" : "Vous ne possédez pas de compte ?",
                 textAlign: TextAlign.center,
               ),
               TextButton(
@@ -233,13 +239,10 @@ class _ActionSectionState extends State<ActionSection> {
                 },
                 child: GradientText(
                   widget.register ? "Se connecter" : "S'inscrire",
-                  gradient: const LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromARGB(255, 204, 0, 0),
-                        Color.fromARGB(255, 153, 0, 51),
-                      ]),
+                  gradient: const LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                    Color.fromARGB(255, 204, 0, 0),
+                    Color.fromARGB(255, 153, 0, 51),
+                  ]),
                 ),
               )
             ],
