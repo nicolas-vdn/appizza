@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../classes/interfaces/pizza.dart';
+import '../classes/dto/pizza.dart';
 
 class CartProvider extends ChangeNotifier {
   final Map<Pizza, int> _list = {};
@@ -34,6 +34,12 @@ class CartProvider extends ChangeNotifier {
 
   int quantityOf(Pizza pizza) {
     return _list[pizza] ?? 0;
+  }
+
+  int totalQuantity() {
+    int total = 0;
+    _list.forEach((key, value) => total += value);
+    return total;
   }
 
   void emptyCart() {

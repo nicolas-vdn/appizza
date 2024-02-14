@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../components/cart_content.dart';
 
@@ -8,14 +7,13 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(onPressed: () => context.go('/'), icon: const Icon(Icons.arrow_back)),
-        const CartContent(),
-        Expanded(
-          child: Form(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        children: [
+          const CartContent(),
+          Expanded(
+            child: Form(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -33,21 +31,39 @@ class CartPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                  FilledButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 204, 0, 0),
+                        Color.fromARGB(255, 153, 0, 51),
+                      ]),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    onPressed: null,
-                    child: const Text('Commander'),
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.all(16.0),
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.paypal,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        "Commander",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

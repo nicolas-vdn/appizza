@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/components/card_gradient.dart';
+import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/pizza_api.dart';
-import '../../classes/interfaces/pizza.dart';
+import '../../classes/dto/pizza.dart';
 import '../../providers/cart_provider.dart';
-import '../components/cart_content.dart';
 import '../components/loader.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,19 +34,9 @@ class _HomePageState extends State<HomePage> {
             return const Loader();
           default:
             if (snapshot.hasData) {
-              return Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                clipBehavior: Clip.none,
-                children: [
-                  PizzaCarousel(pizzaList: snapshot.data!),
-                  const Positioned(
-                    top: 16,
-                    child: CartContent(),
-                  ),
-                ],
-              );
+              return PizzaCarousel(pizzaList: snapshot.data!);
             } else if (snapshot.hasError) {
-              return Center(child: Text('${snapshot.error}'));
+              return Text('${snapshot.error}');
             }
         }
         return const Loader();
@@ -81,7 +70,7 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
             return Builder(
               builder: (BuildContext context) {
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Stack(
                       clipBehavior: Clip.none,
