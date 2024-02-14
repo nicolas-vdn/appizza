@@ -143,7 +143,9 @@ class LeftDrawer extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.navigate_next),
                   title: const Text('Historique'),
-                  onTap: () {},
+                  onTap: () {
+                    context.go('/orders');
+                  },
                 ),
               ],
             ),

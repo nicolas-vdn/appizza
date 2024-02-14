@@ -50,4 +50,5 @@ class Order implements EntityInterface {
   late int id;
   late List<OrderContent> orderContent;
   late double price;
+  late bool isExpanded = false;
 }
