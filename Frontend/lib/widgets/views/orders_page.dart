@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
-import 'package:frontend/classes/interfaces/order.dart';
-import 'package:frontend/classes/interfaces/order_content.dart';
+import 'package:frontend/classes/dto/order.dart';
 import 'package:go_router/go_router.dart';
 
 class OrderPage extends StatefulWidget {

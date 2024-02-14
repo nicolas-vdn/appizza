@@ -1,4 +1,4 @@
-import 'package:frontend/classes/interfaces/order_content.dart';
+import 'package:frontend/classes/dto/order_content.dart';
 
 import 'entity_interface.dart';
 
@@ -10,33 +10,22 @@ class Order implements EntityInterface {
   });
 
   @override
-    factory Order.fromMap(Map map) {
-      List<OrderContent> test(List<dynamic> listDynamic) {
-        List<OrderContent> list = [];
-        listDynamic.forEach((jsonMap) => list.add(OrderContent(id: jsonMap['id'], name: jsonMap['name'], amount: jsonMap['amount'])));
-
-        return list;
+  factory Order.fromMap(Map map) {
+    List<OrderContent> test(List<dynamic> listDynamic) {
+      List<OrderContent> list = [];
+      for (var jsonMap in listDynamic) {
+        list.add(OrderContent(id: jsonMap['id'], name: jsonMap['name'], amount: jsonMap['amount']));
       }
 
-      return Order(
-          id: map['id'],
-          orderContent: test(map['order_content']),
-          price: double.parse(map['price'])
-      );
+      return list;
     }
 
-  // @override
-  // factory Order.fromMap(Map map) {
-  //   map['order_content'].forEach((e) => {
-  //     print(map['order_content'].toString().runtimeType),
-  //     print(json.decode(map['order_content'].toString()))
-  //   });
-  //   return Order(
-  //       id: 7,
-  //       orderContent: map['order_content'].map((e) => OrderContent.fromMap(map)).toList(),
-  //       price: double.parse(map['price'])
-  //   );
-  // }
+    return Order(
+        id: map['id'],
+        orderContent: test(map['order_content']),
+        price: double.parse(map['price'])
+    );
+  }
 
   @override
   Map<String, dynamic> toMap() {
