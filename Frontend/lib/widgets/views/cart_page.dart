@@ -41,7 +41,7 @@ class _CartPageState extends State<CartPage> {
                       DropdownButton(
                           items: map.places.map((place) {
                             return DropdownMenuItem(
-                              value: place,
+                              value: place["name"],
                               child: Text(place["name"]),
                             );
                           }).toList(),
