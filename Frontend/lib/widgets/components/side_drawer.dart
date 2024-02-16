@@ -55,14 +55,14 @@ class BuildMenu extends StatelessWidget {
                 themeProvider.themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
                 color: themeProvider.themeMode == ThemeMode.light ? Colors.deepPurple : Colors.amber,
               ),
-              title: const Text('Theme'),
+              title: const Text('Thème'),
               onTap: () => themeProvider.switchThemeMode(context),
             );
           }),
           Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
             return ListTile(
               leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              title: const Text('Déconnexion'),
               onTap: () async {
                 cartProvider.emptyCart();
                 await authProvider.logout();
