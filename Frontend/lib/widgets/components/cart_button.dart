@@ -56,18 +56,17 @@ class CartButton extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),
-                        title: Center(
-                          child: Text(item.key.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                        trailing: Text("${item.key.price} €",
+                        title: Text(item.key.name,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),
+                        trailing: Text("Total : ${item.key.price * item.value} €",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        subtitle: Text("${item.key.price} €"),
                       );
                     },
                   );
