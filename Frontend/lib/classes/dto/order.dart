@@ -1,20 +1,20 @@
-import 'package:frontend/classes/dto/order_content.dart';
+import 'package:frontend/classes/dto/pizza.dart';
 
 import 'entity_interface.dart';
 
 class Order implements EntityInterface {
   Order({
-    required this.id,
+    this.id,
     required this.orderContent,
     required this.price
   });
 
   @override
   factory Order.fromMap(Map map) {
-    List<OrderContent> test(List<dynamic> listDynamic) {
-      List<OrderContent> list = [];
+    Map<Pizza, int> mapOrder(List<dynamic> listDynamic) {
+      Map<Pizza, int> list = {};
       for (var jsonMap in listDynamic) {
-        list.add(OrderContent(id: jsonMap['id'], name: jsonMap['name'], amount: jsonMap['amount']));
+        list[Pizza(id: jsonMap['id'], name: jsonMap['name'], url: jsonMap['image_url'], price: double.parse(jsonMap['price']))] = jsonMap['amount'];
       }
 
       return list;
@@ -22,7 +22,7 @@ class Order implements EntityInterface {
 
     return Order(
         id: map['id'],
-        orderContent: test(map['order_content']),
+        orderContent: mapOrder(map['order_content']),
         price: double.parse(map['price'])
     );
   }
@@ -36,8 +36,8 @@ class Order implements EntityInterface {
     };
   }
 
-  late int id;
-  late List<OrderContent> orderContent;
+  late int ?id;
+  late Map<Pizza, int> orderContent;
   late double price;
   late bool isExpanded = false;
 }
