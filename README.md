@@ -23,7 +23,7 @@ Avant d'installer et d'exécuter l'application, assurez-vous d'avoir les outils 
 
 ![Image_flutter_doctor](./res/flutterDoctor.PNG)
 
-Une fois les installations effectuées, clonez ce repository, dirigez-vous vers le dossier ==.\Frontend== et exécutez la commande `flutter run`.
+Une fois les installations effectuées, clonez ce repository, dirigez-vous vers le dossier **.\Frontend** et exécutez la commande `flutter run`.
 
 Choisissez l'appareil sur lequel vous souhaitez démarrer l'application et validez.
 
