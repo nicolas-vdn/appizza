@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/enums/breakpoints.dart';
 import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             return const Loader();
           default:
             if (snapshot.hasData) {
-              return PizzaCarousel(pizzaList: snapshot.data!);
+              return SingleChildScrollView(child: PizzaCarousel(pizzaList: snapshot.data!));
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -55,41 +56,71 @@ class PizzaCarousel extends StatefulWidget {
 }
 
 class _PizzaCarouselState extends State<PizzaCarousel> {
+  late CarouselController _controller;
+
+  @override
+  void initState() {
+    _controller = CarouselController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cart, child) {
-        return CarouselSlider(
-          options: CarouselOptions(
-            autoPlay: true,
-            height: 550,
-            autoPlayInterval: const Duration(seconds: 10),
-            enlargeCenterPage: true,
-          ),
-          items: widget.pizzaList.map((pizza) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
+        return Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(32.0),
+              constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
+              child: TextFormField(
+                onChanged: (String? value) {
+                  try {
+                    Pizza pizza = widget.pizzaList
+                        .singleWhere((Pizza element) => element.name.toLowerCase().contains("${value?.toLowerCase()}"));
+                    _controller.jumpToPage(widget.pizzaList.indexOf(pizza));
+                  } catch (e) {}
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Très faim ? Recherchez votre pizza',
+                  icon: Icon(Icons.local_pizza),
+                ),
+              ),
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                height: 550,
+                autoPlayInterval: const Duration(seconds: 10),
+                enlargeCenterPage: true,
+              ),
+              carouselController: _controller,
+              items: widget.pizzaList.map((pizza) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Positioned(
-                          child: SlideLowerPart(pizza: pizza),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          alignment: AlignmentDirectional.topCenter,
+                          children: [
+                            Positioned(
+                              child: SlideLowerPart(pizza: pizza),
+                            ),
+                            Positioned(
+                              top: -100,
+                              child: SlideUpperPart(pizza: pizza),
+                            )
+                          ],
                         ),
-                        Positioned(
-                          top: -100,
-                          child: SlideUpperPart(pizza: pizza),
-                        )
                       ],
-                    ),
-                  ],
+                    );
+                  },
                 );
-              },
-            );
-          }).toList(),
+              }).toList(),
+            ),
+          ],
         );
       },
     );
