@@ -39,23 +39,13 @@ class BuildMenu extends StatelessWidget {
         runSpacing: 8,
         children: [
           ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Accueil'),
-            onTap: () {
-              if (context.mounted) {
-                  Navigator.pop(context);
-                  context.go('/');
-                }
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.history),
             title: const Text('Historique'),
             onTap: () {
               if (context.mounted) {
-                  Navigator.pop(context);
-                  context.go('/orders');
-                }
+                Navigator.pop(context);
+                context.goNamed("orders");
+              }
             },
           ),
           const Divider(),
@@ -91,10 +81,7 @@ class BuildMenu extends StatelessWidget {
 }
 
 class BuildHeader extends StatelessWidget {
-
-  const BuildHeader({
-    super.key
-  });
+  const BuildHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

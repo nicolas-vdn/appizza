@@ -69,6 +69,13 @@ final router = GoRouter(
             child: CartPage(),
           ),
         ),
+        GoRoute(
+          name: "orders",
+          path: '/orders',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: OrderPage(),
+          ),
+        ),
       ],
     ),
     GoRoute(
@@ -116,33 +123,6 @@ final router = GoRouter(
           body: const SafeArea(
             child: Center(
               child: HomePage(),
-            ),
-          ),
-        ),
-      ),
-    ),
-    GoRoute(
-      name: "orders",
-      path: '/orders',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarIconBrightness:
-                    Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark,
-                statusBarColor: Colors.transparent),
-            scrolledUnderElevation: 0,
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            title: SizedBox(
-              width: 48,
-              child: Image.asset("assets/images/app_pizza.png"),
-            )
-          ),
-          drawer: const SideDrawer(),
-          body: const SafeArea(
-            child: Center(
-              child: OrderPage(),
             ),
           ),
         ),

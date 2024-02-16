@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
-import 'package:frontend/classes/dto/order.dart';
+import 'package:frontend/classes/models/order.dart';
 
-import '../classes/dto/pizza.dart';
+import '../classes/models/pizza.dart';
 
 class CartProvider extends ChangeNotifier {
   final Map<Pizza, int> _list = {};
@@ -63,7 +62,7 @@ class CartProvider extends ChangeNotifier {
         throw Exception(response.data);
       }
     } else {
-    throw Exception('Empty cart');
-  }
+      throw Exception('Empty cart');
+    }
   }
 }

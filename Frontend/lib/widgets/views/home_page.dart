@@ -4,7 +4,7 @@ import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/pizza_api.dart';
-import '../../classes/dto/pizza.dart';
+import '../../classes/models/pizza.dart';
 import '../../providers/cart_provider.dart';
 import '../components/loader.dart';
 
@@ -183,7 +183,7 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                            widget.pizza.note.toStringAsFixed(1),
+                              widget.pizza.note.toStringAsFixed(1),
                               style: const TextStyle(
                                 color: Colors.white,
                               ),

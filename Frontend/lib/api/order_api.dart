@@ -1,7 +1,5 @@
-import 'dart:html';
-
 import 'package:dio/dio.dart';
-import 'package:frontend/classes/dto/order.dart';
+import 'package:frontend/classes/models/order.dart';
 
 import 'api.dart';
 
