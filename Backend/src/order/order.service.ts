@@ -19,23 +19,39 @@ export class OrderService {
 
   async getOrdersByUser(userId: number) {
     const user = await this.usersService.findUserById(userId);
-    const userOrders = await this.ordersRepository.findBy({ user: user });
+    const userOrders = await this.ordersRepository.findBy({
+      user: user,
+    });
 
-    userOrders.map(
-      (order) => (order.order_content = JSON.parse(order.order_content)),
-    );
+    if (userOrders.length > 0) {
+      const orders = [];
+
+      for (const order of userOrders) {
+        const tempOrder = {
+          id: order.id,
+          order_content: [],
+          price: order.price,
+        };
+
+        const orderContent: PizzaDto[] = JSON.parse(order.order_content);
+
+        for (const pizza of orderContent) {
+          tempOrder.order_content.push({
+            ...(await this.pizzaService.getOnePizza(pizza.id)),
+            amount: pizza.amount,
+          });
+        }
+
+        orders.push(tempOrder);
+      }
+
+      return orders;
+    }
 
     return userOrders;
   }
 
   async createOrder(order: OrderDto, userid: number): Promise<Order> {
-    order.order_content = await Promise.all(
-      order.order_content.map(async (pizza: PizzaDto) => {
-        pizza.name = (await this.pizzaService.getOnePizza(pizza.id)).name;
-        return pizza;
-      }),
-    );
-
     const strOrder = JSON.stringify(order.order_content);
     const user = await this.usersService.findUserById(userid);
 

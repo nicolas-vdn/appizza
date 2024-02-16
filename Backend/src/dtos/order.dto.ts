@@ -3,7 +3,7 @@ import { PizzaDto } from './pizza.dto';
 import { Type } from 'class-transformer';
 
 export class OrderDto {
-  @IsNotEmpty()
+  id?: number;
   @Type(() => PizzaDto)
   @ValidateNested({ each: true })
   @ArrayMinSize(1)

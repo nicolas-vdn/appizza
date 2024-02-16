@@ -6,5 +6,9 @@ export class PizzaDto {
   @IsNotEmpty()
   amount: number;
 
-  name?: string;
+  price!: string;
+
+  image_url!: string;
+
+  name!: string;
 }
