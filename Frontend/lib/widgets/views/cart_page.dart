@@ -28,6 +28,7 @@ class _CartPageState extends State<CartPage> {
 
   void popup() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
