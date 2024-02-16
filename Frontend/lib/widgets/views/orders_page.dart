@@ -40,7 +40,7 @@ class _OrderPageState extends State<OrderPage> {
                             return CardOrder(
                               order: snapshot.data![snapshot.data!.length - 1 - index],
                               //Part de la fin pour afficher les commandes récentes en premier
-                              isLast: index == snapshot.data!.length - 1,
+                              isLast: index == 0,
                             );
                           }),
                     )
