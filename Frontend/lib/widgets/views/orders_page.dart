@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
 import 'package:frontend/classes/models/order.dart';
-import 'package:frontend/classes/models/pizza.dart';
 import 'package:frontend/widgets/components/loader.dart';
 import 'package:frontend/widgets/utils/gradient_card.dart';
 
@@ -79,28 +78,37 @@ class _CardOrderState extends State<CardOrder> {
             ),
             children: [
               const Divider(color: Colors.white, indent: 16, endIndent: 16),
-              for (MapEntry<Pizza, int> entry in widget.order.orderContent.entries) ...[
-                ListTile(
-                  leading: Text("${entry.value} x",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )),
-                  title: Text(entry.key.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )),
-                  trailing: Text("${entry.key.price} €",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )),
+              Container(
+                constraints: const BoxConstraints(minHeight: 50, maxHeight: 200),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.order.orderContent.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final pizza = widget.order.orderContent.entries.toList()[index];
+
+                    return ListTile(
+                      leading: Text("${pizza.value} x",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                      title: Text(pizza.key.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                      trailing: Text("${pizza.key.price} €",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                    );
+                  },
                 ),
-              ],
+              ),
               const Divider(color: Colors.white, indent: 16, endIndent: 16),
               ListTile(
                 leading: const Text("Total : ",
