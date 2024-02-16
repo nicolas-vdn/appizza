@@ -20,12 +20,6 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      //Ferme le keyboard sur mobile
-      FocusScopeNode currentFocus = FocusScope.of(context);
-      if (!currentFocus.hasPrimaryFocus) {
-        currentFocus.unfocus();
-      }
-
       setState(() => _isLoading = true);
       _formKey.currentState!.save();
 
