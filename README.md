@@ -69,4 +69,4 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 
 ## :memo: License
 
-<!-- License à ajouter -->
+Ce projet est affilié à la [license MIT](https://gitlab.com/TristanRib/appizza/-/blob/main/LICENSE?ref_type=heads)
