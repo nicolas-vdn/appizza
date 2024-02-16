@@ -30,6 +30,7 @@ export class OrderService {
         const tempOrder = {
           id: order.id,
           order_content: [],
+          date: order.date,
           price: order.price,
         };
 
@@ -54,10 +55,23 @@ export class OrderService {
   async createOrder(order: OrderDto, userid: number): Promise<Order> {
     const strOrder = JSON.stringify(order.order_content);
     const user = await this.usersService.findUserById(userid);
+    let date = new Date().toLocaleString('fr-FR', {
+      timeZone: 'Europe/Paris',
+    });
+
+    date =
+      date.substring(6, 10) +
+      '-' +
+      date.substring(3, 5) +
+      '-' +
+      date.substring(0, 2) +
+      date.substring(10) +
+      'Z';
 
     const orderData: CreateOrderDto = {
       order_content: strOrder,
       user: user,
+      date: date,
       price: order.price,
     };
 
