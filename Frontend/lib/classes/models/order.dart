@@ -3,7 +3,7 @@ import 'package:frontend/classes/models/pizza.dart';
 import 'entity_interface.dart';
 
 class Order implements EntityInterface {
-  Order({this.id, required this.orderContent, required this.price});
+  Order({this.id, required this.orderContent, required this.price, this.date});
 
   @override
   factory Order.fromMap(Map map) {
@@ -20,7 +20,12 @@ class Order implements EntityInterface {
       return list;
     }
 
-    return Order(id: map['id'], orderContent: mapOrder(map['order_content']), price: double.parse(map['price']));
+    return Order(
+      id: map['id'],
+      orderContent: mapOrder(map['order_content']),
+      price: double.parse(map['price']),
+      date: DateTime.parse(map['date']),
+    );
   }
 
   @override
@@ -35,4 +40,5 @@ class Order implements EntityInterface {
   late int? id;
   late Map<Pizza, int> orderContent;
   late double price;
+  late DateTime? date;
 }

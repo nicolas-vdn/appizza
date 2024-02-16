@@ -3,6 +3,7 @@ import 'package:frontend/classes/enums/breakpoints.dart';
 import 'package:frontend/providers/cart_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/map_provider.dart';
@@ -30,9 +31,18 @@ class _CartPageState extends State<CartPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          icon: _isDone ? const Icon(Icons.flatware) : const Icon(Icons.sentiment_dissatisfied),
           title: _isDone ? const Text('Réussite') : const Text('Erreur'),
           content: _isDone
-              ? const Text('Commande enregistrée !')
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Commande en cours de livraison !"),
+                    Text(
+                        "Arrivée prévue avant ${DateFormat.Hm().format(DateTime.now().add(const Duration(hours: 3)))}."),
+                  ],
+                )
               : const Text('Erreur lors de l\'enregistrement de la commande'),
           actions: [
             TextButton(
@@ -111,9 +121,10 @@ class _CartPageState extends State<CartPage> {
                   onPressed: () async {
                     if (cart.list.isEmpty) return;
 
-                    setState(() => _loading = true);
+                    /*setState(() => _loading = true);
                     _isDone = await cart.createOrder();
-                    setState(() => _loading = false);
+                    setState(() => _loading = false);*/
+                    _isDone = true;
                     popup();
                   },
                   icon: _loading
@@ -194,15 +205,13 @@ class CartContent extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
-                      title: Center(
-                        child: Text(item.key.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
-                      ),
-                      trailing: Text("${item.key.price} €",
+                      title: Text(item.key.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                      trailing: Text("${item.key.price} € l'unité",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

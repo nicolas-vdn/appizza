@@ -63,7 +63,7 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 
 ## :handshake: Crédits
 
-- @TristanRib - Page d'authentification, relation application - API, routage, providers, fenêtre de fonctionnalités, architecture d'application
+- @TristanRib - Page d'authentification, relation application - API, router, providers, scaffolds, architecture d'application
 - @ThomBsn - Design d'application, page d'accueil, page de commande 
 - @nvan-duysen - API, page d'historique des commandes
 
