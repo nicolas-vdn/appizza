@@ -65,7 +65,7 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 
 - @TristanRib - Page d'authentification, relation application - API, router, providers, scaffolds, architecture d'application
 - @ThomBsn - Design d'application, page d'accueil, page de commande 
-- @nvan-duysen - API, page d'historique des commandes
+- @nvan-duysen - API, page d'historique des commandes, gestion des commandes
 
 ## :memo: License
 
