@@ -14,7 +14,7 @@ class Order implements EntityInterface {
     Map<Pizza, int> mapOrder(List<dynamic> listDynamic) {
       Map<Pizza, int> list = {};
       for (var jsonMap in listDynamic) {
-        list[Pizza(id: jsonMap['id'], name: jsonMap['name'], url: jsonMap['image_url'], price: double.parse(jsonMap['price']))] = jsonMap['amount'];
+        list[Pizza(id: jsonMap['id'], name: jsonMap['name'], price: double.parse(jsonMap['price']), note: double.parse(jsonMap['note']), url: jsonMap['image_url'])] = jsonMap['amount'];
       }
 
       return list;
