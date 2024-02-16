@@ -54,8 +54,6 @@ export class OrderController {
       }
     }
 
-    await this.orderService.createOrder(order, user.id);
-
-    return HttpStatus.CREATED;
+    return await this.orderService.createOrder(order, user.id);
   }
 }

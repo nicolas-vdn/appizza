@@ -12,6 +12,9 @@ export class Order {
   @Column()
   price: string;
 
+  @Column()
+  date: string;
+
   @ManyToOne(() => User, (user) => user.id, { eager: true })
   user: User;
 }
