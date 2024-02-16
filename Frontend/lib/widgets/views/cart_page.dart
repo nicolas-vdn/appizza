@@ -193,33 +193,36 @@ class CartContent extends StatelessWidget {
               ),
               children: [
                 const Divider(color: Colors.white, indent: 16, endIndent: 16),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: cart.list.length,
-                  itemBuilder: (context, index) {
-                    final item = cart.list.entries.toList()[index];
+                Container(
+                  constraints: BoxConstraints(maxHeight: Breakpoints.mobileS.size),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: cart.list.length,
+                    itemBuilder: (context, index) {
+                      final item = cart.list.entries.toList()[index];
 
-                    return ListTile(
-                      leading: Text("${item.value} x",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                      title: Text(item.key.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                      trailing: Text("${item.key.price} € l'unité",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                    );
-                  },
+                      return ListTile(
+                        leading: Text("${item.value} x",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            )),
+                        title: Text(item.key.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            )),
+                        trailing: Text("${item.key.price} € l'unité",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            )),
+                      );
+                    },
+                  ),
                 )
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/enums/breakpoints.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +42,7 @@ class CartButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                constraints: const BoxConstraints(maxHeight: 300),
+                constraints: BoxConstraints(maxHeight: Breakpoints.mobileS.size),
                 child: Consumer<CartProvider>(builder: (context, cart, child) {
                   return ListView.builder(
                     shrinkWrap: true,
