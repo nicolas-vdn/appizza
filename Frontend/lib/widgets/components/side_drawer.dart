@@ -79,7 +79,7 @@ class BuildMenu extends StatelessWidget {
                 await authProvider.logout();
                 if (context.mounted) {
                   Navigator.pop(context);
-                  context.go("/authenticate");
+                  context.goNamed("authentication");
                 }
               },
             );
