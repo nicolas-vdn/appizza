@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:frontend/providers/auth_provider.dart';
 import 'package:frontend/providers/cart_provider.dart';
+import 'package:frontend/providers/map_provider.dart';
 import 'package:frontend/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => CartProvider()),
+      ChangeNotifierProvider(create: (context) => MapProvider()),
     ],
     child: const MyApp(),
   ));

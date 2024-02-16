@@ -49,7 +49,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width - 50,
-                        constraints: const BoxConstraints(maxWidth: 750),
+                        height: 300,
                         child: GoogleMap(
                             onMapCreated: _onMapCreated,
                             initialCameraPosition: CameraPosition(
