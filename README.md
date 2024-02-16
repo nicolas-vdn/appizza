@@ -51,7 +51,7 @@ Une fois dans la page de validation de commande, renseignez votre adresse et val
 
 Dans la page d'accueil, vous trouverez une icône appelée "menu burger" dans l'angle supérieur gauche. Cliquer sur cette icône vous affichera une fenêtre avec plusieurs fonctionnalités.
 
-<!-- Image affichant la fenêtre du menu burger à ajouter -->
+![Image_menu_burder](./res/menuBurger.PNG)
 
 Tout d'abord, vous pourrez faire basculer le thème de l'application, en passant alors du thème clair au thème sombre (et inversement). Vous pouvez également vous déconnecter, ce qui vous redirigera vers la page de connexion.
 
@@ -59,13 +59,13 @@ Enfin, vous avez accès à une page nommée "Historique", qui, une fois sélecti
 
 Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le contenu de la commande mais aussi son prix. L'identifiant utilisé pour nommer les commandes est commun à tous les utilisateurs, ce qui explique des numéros de commande manquants dans votre liste.
 
-<!-- Image affichant l'historique des commandes à ajouter -->
+![Image_historique_commande](./res/historiqueCommande.PNG)
 
 ## :handshake: Crédits
 
 - @TristanRib - Page d'authentification, relation application - API, router, providers, scaffolds, architecture d'application
 - @ThomBsn - Design d'application, page d'accueil, page de commande 
-- @nvan-duysen - API, page d'historique des commandes
+- @nvan-duysen - API, page d'historique des commandes, gestion des commandes
 
 ## :memo: License
 
