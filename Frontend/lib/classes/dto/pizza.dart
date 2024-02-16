@@ -5,12 +5,13 @@ class Pizza implements EntityInterface {
     required this.id,
     required this.name,
     required this.price,
+    required this.note,
     required this.url,
   });
 
   @override
   factory Pizza.fromMap(Map map) {
-    return Pizza(id: map['id'], name: map['name'], price: double.parse(map['price']), url: map['image_url']);
+    return Pizza(id: map['id'], name: map['name'], price: double.parse(map['price']), note: double.parse(map['note']), url: map['image_url']);
   }
 
   @override
@@ -24,5 +25,6 @@ class Pizza implements EntityInterface {
   late int id;
   late String name;
   late double price;
+  late double note;
   late String url;
 }
