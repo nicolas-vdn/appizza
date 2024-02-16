@@ -39,9 +39,9 @@ class _CartPageState extends State<CartPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Commande en cours de livraison !"),
+                    const Text("Commande en cours de préparation !"),
                     Text(
-                        "Arrivée prévue avant ${DateFormat.Hm().format(DateTime.now().add(const Duration(hours: 3)))}."),
+                        "Livraison prévue avant ${DateFormat.Hm().format(DateTime.now().add(const Duration(hours: 3)))}."),
                   ],
                 )
               : const Text('Erreur lors de l\'enregistrement de la commande'),
