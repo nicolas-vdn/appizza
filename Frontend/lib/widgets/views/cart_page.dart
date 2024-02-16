@@ -39,10 +39,10 @@ class _CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownButton(
-                          items: map.places.map((place) {
-                            return DropdownMenuItem(
-                              value: place["name"],
-                              child: Text(place["name"]),
+                          items: map.places.map<DropdownMenuItem<String>>((Map<String, dynamic> place) {
+                            return DropdownMenuItem<String>(
+                              value: place["name"] as String, // Explicitly cast to String
+                              child: Text(place["name"] as String), // Explicitly cast to String
                             );
                           }).toList(),
                           onChanged: (selectedPlace) => map.onChangedAddress(selectedPlace)
