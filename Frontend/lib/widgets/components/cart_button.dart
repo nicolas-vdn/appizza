@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
+import 'list_tile_item.dart';
 
 class CartButton extends StatelessWidget {
   const CartButton({super.key});
@@ -48,27 +49,9 @@ class CartButton extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: cart.list.length,
                     itemBuilder: (context, index) {
-                      final item = cart.list.entries.toList()[index];
-
-                      return ListTile(
-                        leading: Text("${item.value} x",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        title: Text(item.key.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        subtitle: Text("${item.key.price} €"),
-                        trailing: Text("${(item.value * item.key.price).toStringAsFixed(2)} €",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
+                      return ListTileItem(
+                        item: cart.list.entries.toList()[index],
+                        constant: false,
                       );
                     },
                   );
