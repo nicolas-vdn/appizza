@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/map_provider.dart';
+import '../components/list_tile_item.dart';
 import '../utils/gradient_card.dart';
 
 class CartPage extends StatefulWidget {
@@ -187,6 +188,8 @@ class CartContent extends StatelessWidget {
             width: MediaQuery.of(context).size.width - 50,
             constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
             child: ExpansionTile(
+              iconColor: Colors.white,
+              collapsedIconColor: Colors.white,
               shape: const Border(),
               title: Row(
                 children: [
@@ -215,28 +218,9 @@ class CartContent extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: cart.list.length,
                     itemBuilder: (context, index) {
-                      final item = cart.list.entries.toList()[index];
-
-                      return ListTile(
-                        leading: Text("${item.value} x",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
-                        title: Text(item.key.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
-                        subtitle: Text("${item.key.price.toStringAsFixed(2)} €"),
-                        trailing: Text("${(item.key.price * item.value).toStringAsFixed(2)} €",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
+                      return ListTileItem(
+                        item: cart.list.entries.toList()[index],
+                        constant: true,
                       );
                     },
                   ),

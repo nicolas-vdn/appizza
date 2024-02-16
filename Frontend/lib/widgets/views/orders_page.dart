@@ -5,6 +5,8 @@ import 'package:frontend/widgets/components/loader.dart';
 import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:intl/intl.dart';
 
+import '../components/list_tile_item.dart';
+
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
 
@@ -106,31 +108,9 @@ class _CardOrderState extends State<CardOrder> {
                   shrinkWrap: true,
                   itemCount: widget.order.orderContent.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final item = widget.order.orderContent.entries.toList()[index];
-
-                    return ListTile(
-                      leading: Text("${item.value} x",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                      title: Text(item.key.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                      trailing: Text("${item.key.price * item.value} €",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          )),
-                      subtitle: Text("${item.key.price} €",
-                          style: const TextStyle(
-                            color: Colors.white,
-                          )),
+                    return ListTileItem(
+                      item: widget.order.orderContent.entries.toList()[index],
+                      constant: true,
                     );
                   },
                 ),
