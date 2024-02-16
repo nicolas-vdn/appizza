@@ -165,7 +165,7 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                             ],
                           ),
                           Text(
-                            "${widget.pizza.price} €",
+                            "${widget.pizza.price.toStringAsFixed(2)} €",
                             style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
