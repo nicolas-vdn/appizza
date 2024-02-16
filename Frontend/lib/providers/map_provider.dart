@@ -10,15 +10,19 @@ class MapProvider extends ChangeNotifier {
   ];
 
   LatLng _pickedPlace = const LatLng(48.856478593796744, 2.3394743644570393);
-
+  String _pickedName = "Paris";
 
   List<Map<String, dynamic>> get places => _places;
+
   LatLng get pickedPlace => _pickedPlace;
 
-  void onChangedAddress(selectedPlaceName){
+  String get pickedName => _pickedName;
+
+  void onChangedAddress(selectedPlaceName) {
     for (var place in places) {
       if (place["name"] == selectedPlaceName) {
         _pickedPlace = LatLng(place['x'], place['y']);
+        _pickedName = place["name"];
       }
     }
     notifyListeners();
