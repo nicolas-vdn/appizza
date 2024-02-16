@@ -61,7 +61,7 @@ class CartButton extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),
-                        trailing: Text("Total : ${item.key.price * item.value} €",
+                        trailing: Text("${item.key.price * item.value} €",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

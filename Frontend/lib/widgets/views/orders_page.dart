@@ -121,7 +121,7 @@ class _CardOrderState extends State<CardOrder> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
-                      trailing: Text("Total : ${item.key.price * item.value} €",
+                      trailing: Text("${item.key.price * item.value} €",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
