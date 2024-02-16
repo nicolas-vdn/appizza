@@ -36,7 +36,7 @@ class CartContent extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${cart.total} €',
+                          '${cart.total.toStringAsFixed(2)} €',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -107,7 +107,7 @@ class ExpandedRecap extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: Text(
-                              '${cart.list.keys.toList()[index].price} €',
+                              '${cart.list.keys.toList()[index].price.toStringAsFixed(2)} €',
                               style: const TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),

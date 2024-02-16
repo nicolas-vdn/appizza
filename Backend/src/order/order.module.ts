@@ -12,7 +12,7 @@ import { UserService } from '../user/user.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Order, Pizza]),
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
   ],
   controllers: [OrderController],
   providers: [UserService, OrderService, PizzaService],

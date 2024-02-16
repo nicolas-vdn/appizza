@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/api/order_api.dart';
+import 'package:frontend/classes/dto/order.dart';
 
 import '../classes/dto/pizza.dart';
 
@@ -46,5 +49,21 @@ class CartProvider extends ChangeNotifier {
     _list.clear();
     _total = 0;
     notifyListeners();
+  }
+
+  Future<bool> launchOrder() async {
+    if (_list.isNotEmpty) {
+      var order = Order(orderContent: _list, price: _total);
+      var response = await OrderApi.launchOrder(order);
+
+      if (response.statusCode == 201) {
+        emptyCart();
+        return true;
+      } else {
+        throw Exception(response.data);
+      }
+    } else {
+    throw Exception('Empty cart');
+  }
   }
 }

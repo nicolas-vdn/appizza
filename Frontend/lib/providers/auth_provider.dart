@@ -5,8 +5,10 @@ import '../api/user_api.dart';
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
+  String? _username;
 
   String? get token => _token;
+  String? get username => _username;
 
   bool isSignedIn() {
     return _token != null;
@@ -19,6 +21,7 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setString('token', response.data['authToken']);
 
         _token = response.data['authToken'];
+        _username = username;
         UserApi.setAuthHeader(_token!);
       } else {
         throw Exception(response.data);
@@ -34,6 +37,7 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setString('token', response.data['authToken']);
 
         _token = response.data['authToken'];
+        _username = username;
         UserApi.setAuthHeader(_token!);
       } else {
         throw Exception(response.data);
@@ -58,6 +62,11 @@ class AuthProvider extends ChangeNotifier {
     await prefs.remove('token');
     UserApi.removeAuthHeader();
     _token = null;
+    _username = null;
     notifyListeners();
+  }
+
+  String? getUsername() {
+    return _username;
   }
 }

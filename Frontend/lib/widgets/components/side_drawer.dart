@@ -39,9 +39,24 @@ class BuildMenu extends StatelessWidget {
         runSpacing: 8,
         children: [
           ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Accueil'),
+            onTap: () {
+              if (context.mounted) {
+                  Navigator.pop(context);
+                  context.go('/');
+                }
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.history),
             title: const Text('Historique'),
-            onTap: () {},
+            onTap: () {
+              if (context.mounted) {
+                  Navigator.pop(context);
+                  context.go('/orders');
+                }
+            },
           ),
           const Divider(),
           Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
@@ -76,26 +91,31 @@ class BuildMenu extends StatelessWidget {
 }
 
 class BuildHeader extends StatelessWidget {
+
   const BuildHeader({
-    super.key,
+    super.key
   });
 
   @override
   Widget build(BuildContext context) {
-    return CardGradient(
-      child: Padding(
-        padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 16),
-        child: const Column(
-          children: [
-            CircleAvatar(
-              backgroundImage:
-                  NetworkImage('https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
+    return Consumer<AuthProvider>(
+      builder: (context, auth, child) {
+        return CardGradient(
+          child: Padding(
+            padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 16),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  backgroundImage:
+                      NetworkImage('https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
+                ),
+                const SizedBox(height: 8.0),
+                Text(auth.getUsername() ?? 'Compte', style: const TextStyle(fontSize: 20, color: Colors.white))
+              ],
             ),
-            SizedBox(height: 8.0),
-            Text('Compte', style: TextStyle(fontSize: 20, color: Colors.white))
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

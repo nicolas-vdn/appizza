@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -6,9 +6,12 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('text')
   order_content: string;
 
-  @ManyToOne(type => User, user => user.id)
+  @Column()
+  price: string;
+
+  @ManyToOne(() => User, (user) => user.id, { eager: true })
   user: User;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/widgets/views/orders_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -115,6 +116,33 @@ final router = GoRouter(
           body: const SafeArea(
             child: Center(
               child: HomePage(),
+            ),
+          ),
+        ),
+      ),
+    ),
+    GoRoute(
+      name: "orders",
+      path: '/orders',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: Scaffold(
+          appBar: AppBar(
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarIconBrightness:
+                    Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+                statusBarColor: Colors.transparent),
+            scrolledUnderElevation: 0,
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            title: SizedBox(
+              width: 48,
+              child: Image.asset("assets/images/app_pizza.png"),
+            )
+          ),
+          drawer: const SideDrawer(),
+          body: const SafeArea(
+            child: Center(
+              child: OrderPage(),
             ),
           ),
         ),
