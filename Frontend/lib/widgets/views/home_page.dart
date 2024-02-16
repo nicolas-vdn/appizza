@@ -175,20 +175,20 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                         ],
                       ),
                     ),
-                    const Card(
+                    Card(
                       color: Colors.transparent,
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              "4.3",
-                              style: TextStyle(
+                            widget.pizza.note.toStringAsFixed(1),
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.white,
                             )
