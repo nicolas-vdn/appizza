@@ -36,33 +36,39 @@ class _CartPageState extends State<CartPage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DropdownMenu(
-                          dropdownMenuEntries: map.places.map<DropdownMenuEntry>((Map<String, dynamic> place) {
-                            return DropdownMenuEntry(
-                              value: place["name"] as String, // Explicitly cast to String
-                              label: place["name"] as String, // Explicitly cast to String
-                            );
-                          }).toList(),
-                          initialSelection: map.pickedName,
-                          onSelected: (selectedPlaceName) {
-                            map.onChangedAddress(selectedPlaceName);
-                            mapController.moveCamera(CameraUpdate.newLatLng(map.pickedPlace));
-                          }),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 50,
-                        height: 300,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom:32.0),
+                        child: DropdownMenu(
+                            dropdownMenuEntries: map.places.map<DropdownMenuEntry>((Map<String, dynamic> place) {
+                              return DropdownMenuEntry(
+                                value: place["name"] as String, // Explicitly cast to String
+                                label: place["name"] as String, // Explicitly cast to String
+                              );
+                            }).toList(),
+                            initialSelection: map.pickedName,
+                            onSelected: (selectedPlaceName) {
+                              map.onChangedAddress(selectedPlaceName);
+                              mapController.moveCamera(CameraUpdate.newLatLng(map.pickedPlace));
+                            }),
+                      ),
+                      Expanded(
+                        // width: MediaQuery.of(context).size.width - 50,
+                        // height: 300,
                         child: GoogleMap(
                             onMapCreated: _onMapCreated,
                             initialCameraPosition: CameraPosition(target: map.pickedPlace, zoom: 11.0)),
                       ),
-                      FilledButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+                      Padding(
+                        padding: const EdgeInsets.only(top:32.0),
+                        child: FilledButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.surfaceTint),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+                          ),
+                          onPressed: null,
+                          child: const Text('Commander'),
                         ),
-                        onPressed: null,
-                        child: const Text('Commander'),
                       ),
                     ],
                   );
