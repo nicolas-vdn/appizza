@@ -12,5 +12,8 @@ export class Pizza {
   price: string;
 
   @Column()
+  note: string;
+
+  @Column()
   image_url: string;
 }
