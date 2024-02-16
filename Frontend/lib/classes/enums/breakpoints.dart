@@ -8,5 +8,5 @@ enum Breakpoints {
 
   const Breakpoints(this.size);
 
-  final num size;
+  final double size;
 }

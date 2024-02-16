@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -15,12 +14,9 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
-  final FocusNode focusNode = FocusNode();
 
   late String _username, _password;
-  bool _register = false;
-  bool _isLoading = false;
-  bool _isObscured = true;
+  bool _register = false, _isLoading = false, _isObscured = true;
 
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
@@ -88,36 +84,28 @@ class _AuthPageState extends State<AuthPage> {
                 const SizedBox(
                   height: 8,
                 ),
-                KeyboardListener(
-                  focusNode: focusNode,
-                  onKeyEvent: (event) {
-                    if (event.logicalKey == LogicalKeyboardKey.enter) {
-                      _onSubmit();
-                    }
+                TextFormField(
+                  obscureText: _isObscured,
+                  onSaved: (String? value) {
+                    _password = value!;
                   },
-                  child: TextFormField(
-                    obscureText: _isObscured,
-                    onSaved: (String? value) {
-                      _password = value!;
-                    },
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isObscured = !_isObscured;
-                            });
-                          },
-                          icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                      hintText: 'Mot de passe',
-                      icon: const Icon(Icons.lock),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isObscured = !_isObscured;
+                          });
+                        },
+                        icon: _isObscured ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+                    hintText: 'Mot de passe',
+                    icon: const Icon(Icons.lock),
                   ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                 ),
                 ActionSection(
                   register: _register,

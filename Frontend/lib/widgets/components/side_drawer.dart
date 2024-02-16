@@ -59,8 +59,7 @@ class BuildMenu extends StatelessWidget {
               onTap: () => themeProvider.switchThemeMode(context),
             );
           }),
-          Consumer3<ThemeProvider, AuthProvider, CartProvider>(
-              builder: (context, themeProvider, authProvider, cartProvider, child) {
+          Consumer2<AuthProvider, CartProvider>(builder: (context, authProvider, cartProvider, child) {
             return ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
@@ -97,7 +96,7 @@ class BuildHeader extends StatelessWidget {
                       NetworkImage('https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'),
                 ),
                 const SizedBox(height: 8.0),
-                Text(auth.getUsername() ?? 'Compte', style: const TextStyle(fontSize: 20, color: Colors.white))
+                Text(auth.username ?? 'Compte', style: const TextStyle(fontSize: 20, color: Colors.white))
               ],
             ),
           ),

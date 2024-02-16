@@ -54,21 +54,18 @@ class CartButton extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             )),
                         title: Center(
                           child: Text(item.key.name,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               )),
                         ),
                         trailing: Text("${item.key.price} €",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             )),
                       );
                     },
@@ -93,7 +90,7 @@ class CartButton extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    context.go("/cart");
+                    context.goNamed("cart");
                   },
                   icon: const Icon(
                     Icons.checklist,

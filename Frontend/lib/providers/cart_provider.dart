@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
 import 'package:frontend/classes/models/order.dart';
@@ -50,19 +51,15 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> launchOrder() async {
-    if (_list.isNotEmpty) {
-      var order = Order(orderContent: _list, price: _total);
-      var response = await OrderApi.launchOrder(order);
+  Future<bool> createOrder() async {
+    Order order = Order(orderContent: _list, price: _total);
+    Response response = await OrderApi.postOrder(order);
 
-      if (response.statusCode == 201) {
-        emptyCart();
-        return true;
-      } else {
-        throw Exception(response.data);
-      }
+    if (response.statusCode == 201) {
+      emptyCart();
+      return true;
     } else {
-      throw Exception('Empty cart');
+      throw Exception(response.data);
     }
   }
 }

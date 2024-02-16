@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/map_provider.dart';
 import '../widgets/components/cart_button.dart';
 import '../widgets/components/side_drawer.dart';
 import '../widgets/views/auth_page.dart';
@@ -48,7 +49,7 @@ final router = GoRouter(
               backgroundColor: Colors.transparent,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => context.go("/"),
+                onPressed: () => context.goNamed("home"),
               ),
               title: SizedBox(
                 width: 48,
@@ -65,8 +66,11 @@ final router = GoRouter(
         GoRoute(
           name: "cart",
           path: '/cart',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: CartPage(),
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: ChangeNotifierProvider(
+              create: (context) => MapProvider(),
+              child: const CartPage(),
+            ),
           ),
         ),
         GoRoute(

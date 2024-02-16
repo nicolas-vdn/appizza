@@ -13,6 +13,7 @@ final api = Dio(
         return handler.next(response);
       },
       onError: (DioException error, ErrorInterceptorHandler handler) {
+        //Posibble gestion des erreurs centralisée
         return handler.next(error);
       },
     ),
