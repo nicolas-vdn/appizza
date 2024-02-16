@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:dio/dio.dart';
 import 'package:frontend/classes/dto/order.dart';
 
@@ -20,5 +22,20 @@ class OrderApi {
       collection.add(Order.fromMap(entity));
     }
     response.data = collection;
+  }
+
+  static Future<Response> launchOrder(Order order) async {
+    var content = [];
+
+    order.orderContent.forEach((key, value) {
+      content.add({...key.toMap(), 'amount': value});
+    });
+
+    var newOrder = {
+      'order_content': content,
+      'price': order.price.toStringAsFixed(2),
+    };
+
+    return await api.post(url, data: {'order': newOrder});
   }
 }
