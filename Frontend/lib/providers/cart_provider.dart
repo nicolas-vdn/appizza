@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
+import 'package:frontend/api/pizza_api.dart';
 import 'package:frontend/classes/models/order.dart';
 
 import '../classes/models/pizza.dart';
@@ -15,10 +16,11 @@ class CartProvider extends ChangeNotifier {
   double get total => double.parse(_total.toStringAsFixed(2));
 
   void addPizza(Pizza item) {
-    if (_list.keys.contains(item)) {
-      if (_list[item]! < 10) {
-        _list[item] = _list[item]! + 1;
-        _total += item.price;
+    Pizza? pizza = getPizzaById(item.id);
+    if (pizza != null) {
+      if (_list[pizza]! < 10) {
+        _list[pizza] = _list[pizza]! + 1;
+        _total += pizza.price;
       }
     } else {
       _list[item] = 1;
@@ -28,15 +30,16 @@ class CartProvider extends ChangeNotifier {
   }
 
   void removePizza(Pizza item) {
-    if (_list.keys.contains(item)) {
-      _list[item]! > 1 ? _list[item] = _list[item]! - 1 : _list.remove(item);
-      _total -= item.price;
+    Pizza? pizza = getPizzaById(item.id);
+    if (pizza != null) {
+      _list[pizza]! > 1 ? _list[pizza] = _list[pizza]! - 1 : _list.remove(pizza);
+      _total -= pizza.price;
     }
     notifyListeners();
   }
 
   int quantityOf(Pizza pizza) {
-    return _list[pizza] ?? 0;
+    return _list[getPizzaById(pizza.id)] ?? 0;
   }
 
   int totalQuantity() {
@@ -61,5 +64,16 @@ class CartProvider extends ChangeNotifier {
     } else {
       throw Exception(response.data);
     }
+  }
+
+  Pizza? getPizzaById(int id) {
+    Pizza? element;
+    _list.forEach((key, value) {
+      if (key.id == id) {
+        element = key;
+      }
+    });
+
+    return element;
   }
 }
