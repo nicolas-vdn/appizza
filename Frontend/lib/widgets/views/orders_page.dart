@@ -38,7 +38,7 @@ class _OrderPageState extends State<OrderPage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return CardOrder(
-                              order: snapshot.data![snapshot.data!.length - 1 - index],
+                              order: snapshot.data![snapshot.data!.length - 1 - index], //Part de la fin pour afficher les commandes récentes en premier
                               isLast: index == snapshot.data!.length - 1,
                             );
                           }),
@@ -134,7 +134,7 @@ class _CardOrderState extends State<CardOrder> {
               ListTile(
                 leading: const Icon(Icons.flatware, color: Colors.white),
                 title: widget.isLast &&
-                        DateTime.parse("${DateTime.now().toLocal()}Z").difference(widget.order.date!).inDays == 0
+                        DateTime.parse("${DateTime.now().toLocal()}Z").difference(widget.order.date!).inDays == 0 //Ajoute le Z à la date pour pouvoir la formatter à la TZ française
                     ? const Text("Bon appétit !", style: TextStyle(color: Colors.white))
                     : const Text("C'était bon ?", style: TextStyle(color: Colors.white)),
                 trailing: Text("Total : ${widget.order.price} €",
