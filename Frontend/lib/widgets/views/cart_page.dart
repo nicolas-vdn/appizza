@@ -230,7 +230,8 @@ class CartContent extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             )),
-                        trailing: Text("${item.key.price} € l'unité",
+                        subtitle: Text("${item.key.price.toStringAsFixed(2)} €"),
+                        trailing: Text("${(item.key.price * item.value).toStringAsFixed(2)} €",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
