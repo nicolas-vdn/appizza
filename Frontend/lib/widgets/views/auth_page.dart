@@ -18,6 +18,28 @@ class _AuthPageState extends State<AuthPage> {
   late String _username, _password;
   bool _register = false, _isLoading = false, _isObscured = true;
 
+void popup() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: const Icon(Icons.sentiment_dissatisfied),
+          title: const Text('Erreur'),
+          content: const Text('Erreur lors de la connexion. Vérifiez vos identifiants et réessayez.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'OK');
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
@@ -34,6 +56,7 @@ class _AuthPageState extends State<AuthPage> {
         }
       } catch (e) {
         setState(() => _isLoading = false);
+        popup();
       }
     }
   }
