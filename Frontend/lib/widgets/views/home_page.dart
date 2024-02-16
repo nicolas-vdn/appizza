@@ -205,7 +205,7 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () => cart.removePizza(widget.pizza),
+                      onPressed: () => cart.removePizza(widget.pizza.id),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         padding: const EdgeInsets.all(20),
@@ -219,7 +219,7 @@ class _SlideLowerPartState extends State<SlideLowerPart> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${cart.quantityOf(widget.pizza)}',
+                        '${cart.quantityOf(widget.pizza.id)}',
                         style: const TextStyle(
                           fontSize: 25,
                           color: Colors.white,

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/order_api.dart';
-import 'package:frontend/api/pizza_api.dart';
 import 'package:frontend/classes/models/order.dart';
 
 import '../classes/models/pizza.dart';
@@ -16,30 +15,38 @@ class CartProvider extends ChangeNotifier {
   double get total => double.parse(_total.toStringAsFixed(2));
 
   void addPizza(Pizza item) {
-    Pizza? pizza = getPizzaById(item.id);
-    if (pizza != null) {
+    try {
+      Pizza pizza = _list.keys.singleWhere((element) => element.id == item.id);
+
       if (_list[pizza]! < 10) {
         _list[pizza] = _list[pizza]! + 1;
         _total += pizza.price;
       }
-    } else {
+    } catch (e) {
       _list[item] = 1;
       _total += item.price;
     }
     notifyListeners();
   }
 
-  void removePizza(Pizza item) {
-    Pizza? pizza = getPizzaById(item.id);
-    if (pizza != null) {
+  void removePizza(int id) {
+    try {
+      Pizza? pizza = _list.keys.singleWhere((element) => element.id == id);
       _list[pizza]! > 1 ? _list[pizza] = _list[pizza]! - 1 : _list.remove(pizza);
       _total -= pizza.price;
+    } catch (e) {
+      //Ignore
     }
     notifyListeners();
   }
 
-  int quantityOf(Pizza pizza) {
-    return _list[getPizzaById(pizza.id)] ?? 0;
+  int quantityOf(int id) {
+    try {
+      Pizza pizza = _list.keys.singleWhere((element) => element.id == id);
+      return _list[pizza]!;
+    } catch (e) {
+      return 0;
+    }
   }
 
   int totalQuantity() {
@@ -64,16 +71,5 @@ class CartProvider extends ChangeNotifier {
     } else {
       throw Exception(response.data);
     }
-  }
-
-  Pizza? getPizzaById(int id) {
-    Pizza? element;
-    _list.forEach((key, value) {
-      if (key.id == id) {
-        element = key;
-      }
-    });
-
-    return element;
   }
 }
