@@ -84,22 +84,22 @@ class _CardOrderState extends State<CardOrder> {
                   shrinkWrap: true,
                   itemCount: widget.order.orderContent.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final pizza = widget.order.orderContent.entries.toList()[index];
+                    final item = widget.order.orderContent.entries.toList()[index];
 
                     return ListTile(
-                      leading: Text("${pizza.value} x",
+                      leading: Text("${item.value} x",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
-                      title: Text(pizza.key.name,
+                      title: Text(item.key.name,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
-                      trailing: Text("${pizza.key.price} €",
+                      trailing: Text("${item.key.price} €",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
