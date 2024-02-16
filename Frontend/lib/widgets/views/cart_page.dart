@@ -122,10 +122,10 @@ class _CartPageState extends State<CartPage> {
                   onPressed: () async {
                     if (cart.list.isEmpty) return;
 
-                    /*setState(() => _loading = true);
+                    setState(() => _loading = true);
                     _isDone = await cart.createOrder();
-                    setState(() => _loading = false);*/
-                    _isDone = true;
+                    setState(() => _loading = false);
+
                     popup();
                   },
                   icon: _loading
