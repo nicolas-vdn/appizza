@@ -38,7 +38,7 @@ class _OrderPageState extends State<OrderPage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return CardOrder(
-                              order: snapshot.data![index],
+                              order: snapshot.data![snapshot.data!.length - 1 - index],
                               isLast: index == snapshot.data!.length - 1,
                             );
                           }),
@@ -133,7 +133,8 @@ class _CardOrderState extends State<CardOrder> {
               const Divider(color: Colors.white, indent: 16, endIndent: 16),
               ListTile(
                 leading: const Icon(Icons.flatware, color: Colors.white),
-                title: widget.isLast && DateTime.now().difference(widget.order.date!).inDays == 0
+                title: widget.isLast &&
+                        DateTime.parse("${DateTime.now().toLocal()}Z").difference(widget.order.date!).inDays == 0
                     ? const Text("Bon appétit !", style: TextStyle(color: Colors.white))
                     : const Text("C'était bon ?", style: TextStyle(color: Colors.white)),
                 trailing: Text("Total : ${widget.order.price} €",

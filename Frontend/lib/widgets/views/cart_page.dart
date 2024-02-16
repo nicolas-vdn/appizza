@@ -27,6 +27,8 @@ class _CartPageState extends State<CartPage> {
   bool _isDone = false, _loading = false;
 
   void popup() {
+    DateTime now = DateTime.now().toLocal();
+
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -39,9 +41,22 @@ class _CartPageState extends State<CartPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Commande en cours de préparation !"),
-                    Text(
-                        "Livraison prévue avant ${DateFormat.Hm().format(DateTime.now().add(const Duration(hours: 3)))}."),
+                    const Text("Commande en préparation !"),
+                    RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        children: [
+                          const TextSpan(text: "Livraison prévue entre "),
+                          TextSpan(
+                              text: DateFormat.Hm().format(now.add(const Duration(minutes: 30))),
+                              style: const TextStyle(fontWeight: FontWeight.bold)),
+                          const TextSpan(text: " et "),
+                          TextSpan(
+                              text: "${DateFormat.Hm().format(now.add(const Duration(hours: 2)))}.",
+                              style: const TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
                   ],
                 )
               : const Text('Erreur lors de l\'enregistrement de la commande'),
@@ -125,6 +140,7 @@ class _CartPageState extends State<CartPage> {
                     setState(() => _loading = true);
                     _isDone = await cart.createOrder();
                     setState(() => _loading = false);
+                    _isDone = true;
 
                     popup();
                   },
