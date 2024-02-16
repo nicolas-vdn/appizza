@@ -38,8 +38,9 @@ class _OrderPageState extends State<OrderPage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return CardOrder(
-                              order: snapshot.data![snapshot.data!.length - 1 - index], //Part de la fin pour afficher les commandes récentes en premier
-                              isLast: index == snapshot.data!.length - 1,
+                              order: snapshot.data![snapshot.data!.length - 1 - index],
+                              //Part de la fin pour afficher les commandes récentes en premier
+                              isLast: index == 0,
                             );
                           }),
                     )
@@ -120,10 +121,14 @@ class _CardOrderState extends State<CardOrder> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
-                      trailing: Text("${item.key.price} €",
+                      trailing: Text("${item.key.price * item.value} €",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                      subtitle: Text("${item.key.price} €",
+                          style: const TextStyle(
                             color: Colors.white,
                           )),
                     );
@@ -134,7 +139,8 @@ class _CardOrderState extends State<CardOrder> {
               ListTile(
                 leading: const Icon(Icons.flatware, color: Colors.white),
                 title: widget.isLast &&
-                        DateTime.parse("${DateTime.now().toLocal()}Z").difference(widget.order.date!).inDays == 0 //Ajoute le Z à la date pour pouvoir la formatter à la TZ française
+                        DateTime.parse("${DateTime.now().toLocal()}Z").difference(widget.order.date!).inDays ==
+                            0 //Ajoute le Z à la date pour pouvoir la formatter à la TZ française
                     ? const Text("Bon appétit !", style: TextStyle(color: Colors.white))
                     : const Text("C'était bon ?", style: TextStyle(color: Colors.white)),
                 trailing: Text("Total : ${widget.order.price} €",
