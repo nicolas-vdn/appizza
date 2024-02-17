@@ -18,7 +18,7 @@ class _AuthPageState extends State<AuthPage> {
   late String _username, _password;
   bool _register = false, _isLoading = false, _isObscured = true;
 
-void popup() {
+  void popup() {
     showDialog(
       barrierDismissible: false,
       context: context,

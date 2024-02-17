@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api/network_utility.dart';
 import 'package:frontend/classes/enums/breakpoints.dart';
-import 'package:frontend/classes/models/auto_complete_prediction.dart';
-import 'package:frontend/classes/models/place_auto_complete_response.dart';
+import 'package:frontend/classes/models/place_search.dart';
 import 'package:frontend/providers/cart_provider.dart';
-import 'package:frontend/widgets/components/location_list_tile.dart';
+import 'package:frontend/services/places_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/map_provider.dart';
+import '../../classes/models/place.dart';
 import '../components/list_tile_item.dart';
 import '../utils/gradient_card.dart';
 
@@ -22,36 +20,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  // Google Map
-  late GoogleMapController mapController;
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   bool _isDone = false, _loading = false;
-
-  List<AutoCompletePrediction> placePredictions = [];
-
-  void placeAutoComplete(String query) async {
-    Uri uri = Uri.https(
-      "maps.googleapis.com",
-      'maps/api/place/autocomplete/json',
-      {
-        "input": query,
-        "key": "AIzaSyCeByGeg-TQvA81HK_1oS2CqpPhZ_Bx1Tc"
-      });
-    
-    String? response = await NetworkUtility.fetchUrl(uri);
-
-    if (response != null) {
-      PlaceAutoCompleteResponse result = 
-        PlaceAutoCompleteResponse.parseAutoCompleteResult(response);
-      if (result.predictions != null) {
-        placePredictions = result.predictions!;
-      }
-    }
-  }
 
   void popup() {
     DateTime now = DateTime.now().toLocal();
@@ -112,63 +81,7 @@ class _CartPageState extends State<CartPage> {
             const SizedBox(
               height: 16.0,
             ),
-            Consumer<MapProvider>(
-              builder: (context, map, child) {
-                return Column(
-                  children: [
-                    TextField(
-                      onChanged: (value) {
-                        placeAutoComplete(value);
-                      },
-                      textInputAction: TextInputAction.search,
-                      decoration: const InputDecoration(
-                        hintText: 'Recherchez votre localisation',
-                        prefixIcon: Icon(Icons.pin_drop),
-                      ),
-                    ),
-                    const Divider(
-                      height: 4,
-                      thickness: 4
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: placePredictions.length,
-                        itemBuilder: (context, index) => LocationListTile(
-                          press: () {},
-                          location: placePredictions[index].description!,
-                        ),
-                      )
-                    ),
-                    
-                    
-                    // DropdownMenu(
-                    //     dropdownMenuEntries: map.places.map<DropdownMenuEntry>((Map<String, dynamic> place) {
-                    //       return DropdownMenuEntry(
-                    //         value: place["name"] as String,
-                    //         label: place["name"] as String,
-                    //       );
-                    //     }).toList(),
-                    //     initialSelection: map.pickedPlace["name"],
-                    //     onSelected: (selectedPlaceName) {
-                    //       map.onChangedAddress(selectedPlaceName);
-                    //       mapController.moveCamera(CameraUpdate.newLatLng(map.pickedPlace["LatLng"]));
-                    //     }),
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      width: MediaQuery.of(context).size.width - 50,
-                      constraints:
-                          BoxConstraints(maxWidth: Breakpoints.tablet.size, maxHeight: Breakpoints.mobileL.size),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: GoogleMap(
-                            onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(target: map.pickedPlace["LatLng"], zoom: 11.0)),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+            const MapSection(),
             Consumer<CartProvider>(builder: (context, cart, child) {
               return DecoratedBox(
                 decoration: BoxDecoration(
@@ -281,6 +194,109 @@ class CartContent extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class MapSection extends StatefulWidget {
+  const MapSection({
+    super.key,
+  });
+
+  @override
+  State<MapSection> createState() => _MapSectionState();
+}
+
+class _MapSectionState extends State<MapSection> {
+  late Iterable<PlaceSearch> _lastOptions = [];
+
+  // Google Map
+  late GoogleMapController mapController;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  List<PlaceSearch>? placePredictions = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+          child: Autocomplete<PlaceSearch>(
+            displayStringForOption: (PlaceSearch option) => option.description!,
+            optionsBuilder: (TextEditingValue textEditingValue) async {
+              String? query = textEditingValue.text;
+              final Iterable<PlaceSearch>? options = await PlacesService.getAutoComplete(query);
+
+              if (options == null) {
+                return _lastOptions;
+              } else {
+                _lastOptions = options;
+              }
+
+              // If another search happened after this one, throw away these options. use the previous options instead and wait for the newer request to finish.
+              if (query != textEditingValue.text) {
+                return _lastOptions;
+              }
+
+              return options;
+            },
+            optionsViewBuilder: (BuildContext context, onSelected, Iterable<PlaceSearch> options) {
+              //On implémente nous même le builder sinon la width des options n'a pas de limite (issue connue flutter)
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Material(
+                  elevation: 4.0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width -
+                        128, //Largeur de l'écran moins le padding autour du autoComplete
+                    constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: options.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final PlaceSearch option = options.elementAt(index);
+
+                        return ListTile(
+                          onTap: () => onSelected(option),
+                          title: Text("${option.description}"),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+            onSelected: (PlaceSearch selection) async {
+              Place? place = await PlacesService.getPlace(selection.placeId!);
+
+              if (place != null) {
+                mapController.moveCamera(CameraUpdate.newLatLng(LatLng(place.lat, place.lng)));
+                setState(() {
+                  placePredictions = [];
+                });
+              }
+            },
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(16.0),
+          width: MediaQuery.of(context).size.width - 50,
+          constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size, maxHeight: Breakpoints.mobileL.size),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition:
+                    const CameraPosition(target: LatLng(48.856478593796744, 2.3394743644570393), zoom: 11.0)),
+          ),
+        ),
+      ],
     );
   }
 }

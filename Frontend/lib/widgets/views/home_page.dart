@@ -76,8 +76,8 @@ class _PizzaCarouselState extends State<PizzaCarousel> {
               child: TextFormField(
                 onChanged: (String? value) {
                   try {
-                    Pizza pizza = widget.pizzaList
-                        .singleWhere((Pizza element) => element.name.toLowerCase().startsWith("${value?.toLowerCase()}"));
+                    Pizza pizza = widget.pizzaList.singleWhere(
+                        (Pizza element) => element.name.toLowerCase().startsWith("${value?.toLowerCase()}"));
                     _controller.jumpToPage(widget.pizzaList.indexOf(pizza));
                   } catch (e) {}
                 },
