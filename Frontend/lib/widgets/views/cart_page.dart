@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/api/network_utility.dart';
 import 'package:frontend/classes/enums/breakpoints.dart';
+import 'package:frontend/classes/models/auto_complete_prediction.dart';
+import 'package:frontend/classes/models/place_auto_complete_response.dart';
 import 'package:frontend/providers/cart_provider.dart';
+import 'package:frontend/widgets/components/location_list_tile.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +30,28 @@ class _CartPageState extends State<CartPage> {
   }
 
   bool _isDone = false, _loading = false;
+
+  List<AutoCompletePrediction> placePredictions = [];
+
+  void placeAutoComplete(String query) async {
+    Uri uri = Uri.https(
+      "maps.googleapis.com",
+      'maps/api/place/autocomplete/json',
+      {
+        "input": query,
+        "key": "AIzaSyCeByGeg-TQvA81HK_1oS2CqpPhZ_Bx1Tc"
+      });
+    
+    String? response = await NetworkUtility.fetchUrl(uri);
+
+    if (response != null) {
+      PlaceAutoCompleteResponse result = 
+        PlaceAutoCompleteResponse.parseAutoCompleteResult(response);
+      if (result.predictions != null) {
+        placePredictions = result.predictions!;
+      }
+    }
+  }
 
   void popup() {
     DateTime now = DateTime.now().toLocal();
@@ -90,18 +116,43 @@ class _CartPageState extends State<CartPage> {
               builder: (context, map, child) {
                 return Column(
                   children: [
-                    DropdownMenu(
-                        dropdownMenuEntries: map.places.map<DropdownMenuEntry>((Map<String, dynamic> place) {
-                          return DropdownMenuEntry(
-                            value: place["name"] as String,
-                            label: place["name"] as String,
-                          );
-                        }).toList(),
-                        initialSelection: map.pickedPlace["name"],
-                        onSelected: (selectedPlaceName) {
-                          map.onChangedAddress(selectedPlaceName);
-                          mapController.moveCamera(CameraUpdate.newLatLng(map.pickedPlace["LatLng"]));
-                        }),
+                    TextField(
+                      onChanged: (value) {
+                        placeAutoComplete(value);
+                      },
+                      textInputAction: TextInputAction.search,
+                      decoration: const InputDecoration(
+                        hintText: 'Recherchez votre localisation',
+                        prefixIcon: Icon(Icons.pin_drop),
+                      ),
+                    ),
+                    const Divider(
+                      height: 4,
+                      thickness: 4
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: placePredictions.length,
+                        itemBuilder: (context, index) => LocationListTile(
+                          press: () {},
+                          location: placePredictions[index].description!,
+                        ),
+                      )
+                    ),
+                    
+                    
+                    // DropdownMenu(
+                    //     dropdownMenuEntries: map.places.map<DropdownMenuEntry>((Map<String, dynamic> place) {
+                    //       return DropdownMenuEntry(
+                    //         value: place["name"] as String,
+                    //         label: place["name"] as String,
+                    //       );
+                    //     }).toList(),
+                    //     initialSelection: map.pickedPlace["name"],
+                    //     onSelected: (selectedPlaceName) {
+                    //       map.onChangedAddress(selectedPlaceName);
+                    //       mapController.moveCamera(CameraUpdate.newLatLng(map.pickedPlace["LatLng"]));
+                    //     }),
                     Container(
                       padding: const EdgeInsets.all(16.0),
                       width: MediaQuery.of(context).size.width - 50,
