@@ -49,6 +49,8 @@ Vous pouvez cliquer sur l'icône de panier afin d'obtenir un récapitulatif de v
 
 Une fois dans la page de validation de commande, renseignez votre adresse et validez votre commande. Une boîte d'alerte s'affichera à la création de la commande et votre panier sera vidé. Vous pouvez également retourner sur la page d'accueil en cliquant sur la flèche située dans l'angle supérieur gauche de l'application.
 
+![Image_page_commande](./res/pageCommande.PNG)
+
 Dans la page d'accueil, vous trouverez une icône appelée "menu burger" dans l'angle supérieur gauche. Cliquer sur cette icône vous affichera une fenêtre avec plusieurs fonctionnalités.
 
 ![Image_menu_burder](./res/menuBurger.PNG)
