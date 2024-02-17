@@ -5,7 +5,7 @@ import 'package:frontend/widgets/components/loader.dart';
 import 'package:frontend/widgets/utils/gradient_card.dart';
 import 'package:intl/intl.dart';
 
-import '../components/list_tile_item.dart';
+import '../components/list_tile_cart.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
@@ -108,7 +108,7 @@ class _CardOrderState extends State<CardOrder> {
                   shrinkWrap: true,
                   itemCount: widget.order.orderContent.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTileItem(
+                    return ListTileCart(
                       item: widget.order.orderContent.entries.toList()[index],
                       constant: true,
                     );
@@ -123,7 +123,7 @@ class _CardOrderState extends State<CardOrder> {
                             0 //Ajoute le Z à la date pour pouvoir la formatter à la TZ française
                     ? const Text("Bon appétit !", style: TextStyle(color: Colors.white))
                     : const Text("C'était bon ?", style: TextStyle(color: Colors.white)),
-                trailing: Text("Total : ${widget.order.price} €",
+                trailing: Text("Total : ${widget.order.price.toStringAsFixed(2)} €",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

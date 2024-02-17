@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../classes/models/place.dart';
-import '../components/list_tile_item.dart';
+import '../components/list_tile_cart.dart';
 import '../utils/gradient_card.dart';
 
 class CartPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _CartPageState extends State<CartPage> {
   bool _isDone = false, _loading = false;
 
   void popup() {
-    DateTime now = DateTime.now().toLocal();
+    DateTime now = DateTime.parse("${DateTime.now().toLocal()}Z");
 
     showDialog(
       barrierDismissible: false,
@@ -44,11 +44,11 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           const TextSpan(text: "Livraison prévue entre "),
                           TextSpan(
-                              text: DateFormat.Hm().format(now.add(const Duration(minutes: 30))),
+                              text: DateFormat.Hm('fr_FR').format(now.add(const Duration(minutes: 30))),
                               style: const TextStyle(fontWeight: FontWeight.bold)),
                           const TextSpan(text: " et "),
                           TextSpan(
-                              text: "${DateFormat.Hm().format(now.add(const Duration(hours: 2)))}.",
+                              text: "${DateFormat.Hm('fr_FR').format(now.add(const Duration(hours: 2)))}.",
                               style: const TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -182,7 +182,7 @@ class CartContent extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: cart.list.length,
                     itemBuilder: (context, index) {
-                      return ListTileItem(
+                      return ListTileCart(
                         item: cart.list.entries.toList()[index],
                         constant: true,
                       );

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../classes/models/pizza.dart';
 
-class ListTileItem extends StatelessWidget {
-  const ListTileItem({
+class ListTileCart extends StatelessWidget {
+  const ListTileCart({
     super.key,
     required this.item,
     required this.constant,

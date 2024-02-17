@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
-import 'list_tile_item.dart';
+import 'list_tile_cart.dart';
 
 class CartButton extends StatelessWidget {
   const CartButton({super.key});
@@ -49,7 +49,7 @@ class CartButton extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: cart.list.length,
                     itemBuilder: (context, index) {
-                      return ListTileItem(
+                      return ListTileCart(
                         item: cart.list.entries.toList()[index],
                         constant: false,
                       );
