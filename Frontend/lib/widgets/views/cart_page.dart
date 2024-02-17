@@ -253,9 +253,10 @@ class _MapSectionState extends State<MapSection> {
                 child: Material(
                   elevation: 4.0,
                   child: Container(
-                    width: MediaQuery.of(context).size.width -
-                        128, //Largeur de l'écran moins le padding autour du autoComplete
-                    constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
+                    //On enlève le padding de la page et du autcomplete
+                    width: MediaQuery.of(context).size.width - 128,
+                    //On enlève le padding du autcomplete
+                    constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size - 64),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: options.length,
