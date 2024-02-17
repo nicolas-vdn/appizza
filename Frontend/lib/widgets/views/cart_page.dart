@@ -228,6 +228,15 @@ class _MapSectionState extends State<MapSection> {
           constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size),
           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
           child: Autocomplete<PlaceSearch>(
+            fieldViewBuilder: ((context, textEditingController, focusNode, onFieldSubmitted) {
+              //On implémente nous même le builder du textField pour pouvoir ajouter un hintText
+              return TextFormField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                onEditingComplete: onFieldSubmitted,
+                decoration: const InputDecoration(hintText: 'Où devons nous vous livrer ?'),
+              );
+            }),
             displayStringForOption: (PlaceSearch option) => option.description!,
             optionsBuilder: (TextEditingValue textEditingValue) async {
               String? query = textEditingValue.text;
