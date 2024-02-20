@@ -1,14 +1,14 @@
 # APPIZZA
 
 ## :pushpin: Table des matières
-- [Description](#1)
-- [Installation et exécution de l'application](#2)
-- [Utilisation de l'application](#3)
-- [Axes d'amélioration](#4)
-- [Crédits](#5)
-- [Licence](#6)
+- [Description](#clipboard-description)
+- [Installation et exécution de l'application](#hammer-installation-et-exécution-de-lapplication)
+- [Utilisation de l'application](#computer-utilisation-de-lapplication)
+- [Axes d'amélioration](#chart_with_upwards_trend-axes-damélioration)
+- [Crédits](#handshake-crédits-5)
+- [Licence](#memo-licence-6)
 
-## :clipboard: Description {#1}
+## :clipboard: Description
 APPIZZA est une application mobile de commande de pizza créé en Dart avec le framework Flutter, couplé à une API RESTful créée avec le framework Node NestJS.
 Cette application a été créée dans le cadre d'une remise de projet pour le module de Développement Mobile en 3INFO à EFFICOM LILLE.
 
@@ -25,7 +25,7 @@ Les fonctionnalités principales de l'API RESTful sont les suivantes :
 - Requête pour la consultation de la liste de pizzas
 - Requêtes pour l'ajout / consultation de commandes
 
-## :hammer: Installation et exécution de l'application {#2}
+## :hammer: Installation et exécution de l'application
 
 Avant d'installer et d'exécuter l'application, assurez-vous d'avoir les outils nécessaires à l'exécution d'un projet Flutter (pour ce faire, installez Flutter et exécutez la commande `flutter doctor`).
 
@@ -39,7 +39,7 @@ Choisissez l'appareil sur lequel vous souhaitez démarrer l'application et valid
 
 Concernant l'API, les requêtes nécessaires sont déjà initialisées dans le projet et celle-ci est déjà hébergée à l'adresse [API_APPIZZA](https://appizza.vercel.app/).
 
-## :computer: Utilisation de l'application {#3}
+## :computer: Utilisation de l'application
 
 Au lancement de l'application, inscrivez-vous si vous n'avez pas de compte, auquel cas connectez-vous avec vos identifiants précédemment renseignés. Un système d'encryptage de mot de passe est utilisé dans l'objectif de sécurisation des données d'utilisateur. 
 
@@ -71,7 +71,7 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 
 ![Image_historique_commande](./res/historiqueCommande.PNG)
 
-## :chart_with_upwards_trend: Axes d'amélioration {#4}
+## :chart_with_upwards_trend: Axes d'amélioration
 
 ### Bugfixes :
 - Dans la page commande, l'écouteur d'évènements passe au travers de la liste d'autocomplétion d'adresse. Cela fait qu'on peut se déplacer sur la carte au travers de la liste de suggestions.
@@ -82,12 +82,12 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 - Créer une page "livre d'or" dans laquelle les utilisateurs pourraient donner un commentaire sur la qualité de l'application / des produits
 - Créer une page de personnalisation du profil (identifiants, photo de profil...)
 
-## :handshake: Crédits {#5}
+## :handshake: Crédits
 
 - @TristanRib - Page d'authentification, relation application - API, router, providers, scaffolds, architecture d'application, map system
 - @ThomBsn - Design d'application, page d'accueil, page de commande 
 - @nvan-duysen - API, page d'historique des commandes, gestion des commandes, docs
 
-## :memo: Licence {#6}
+## :memo: Licence
 
 Ce projet est affilié à la [licence MIT](https://gitlab.com/TristanRib/appizza/-/blob/main/LICENSE?ref_type=heads)
