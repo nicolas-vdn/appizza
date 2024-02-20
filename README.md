@@ -38,8 +38,8 @@ Au lancement de l'application, inscrivez-vous si vous n'avez pas de compte, auqu
 ![Image_page_connexion](./res/pageConnexion.PNG)
 
 Une fois inscrit (ou connecté), vous serez redirigé vers la page d'accueil. Dans cette page, vous retrouverez toutes les pizzas disponibles, leur prix et leur note.
-Naviguez à travers le carousel et incrémentez le compteur des pizzas que vous souhaitez commander.
-La quantité de pizzas commandées est affichée à côté de l'icône de panier dans l'angle supérieur droit de l'application.
+Naviguez à travers le carousel et incrémentez le compteur des pizzas que vous souhaitez commander. Vous pouvez également chercher la pizza de votre choix avec le champ situé au-dessus du carousel
+La quantité totale de pizzas commandées est affichée à côté de l'icône de panier dans l'angle supérieur droit de l'application.
 
 ![Image_page_accueil](./res/pageAccueil.PNG)
 
@@ -53,7 +53,7 @@ Une fois dans la page de validation de commande, renseignez votre adresse et val
 
 Dans la page d'accueil, vous trouverez une icône appelée "menu burger" dans l'angle supérieur gauche. Cliquer sur cette icône vous affichera une fenêtre avec plusieurs fonctionnalités.
 
-![Image_menu_burder](./res/menuBurger.PNG)
+![Image_menu_burger](./res/menuBurger.PNG)
 
 Tout d'abord, vous pourrez faire basculer le thème de l'application, en passant alors du thème clair au thème sombre (et inversement). Vous pouvez également vous déconnecter, ce qui vous redirigera vers la page de connexion.
 
@@ -63,11 +63,21 @@ Vous pourrez alors cliquer sur la commande de votre choix afin de retracer le co
 
 ![Image_historique_commande](./res/historiqueCommande.PNG)
 
+## Axes d'amélioration
+
+### Bugfixes :
+- Dans la page commande, l'écouteur d'évènements passe au travers de la liste d'autocomplétion d'adresse. Cela fait qu'on peut se déplacer sur la carte au travers de la liste de suggestions.
+
+### Features :
+- Créer un système d'avis pour chaque pizza à l'issue de commandes, redéfinissant alors automatiquement les notes des pizzas affichées dans le carousel.
+- Créer une page "livre d'or" dans laquelle les utilisateurs pourraient donner un commentaire sur la qualité de l'application / des produits
+- Créer une page de personnalisation du profil (identifiants, photo de profil...)
+
 ## :handshake: Crédits
 
 - @TristanRib - Page d'authentification, relation application - API, router, providers, scaffolds, architecture d'application
 - @ThomBsn - Design d'application, page d'accueil, page de commande 
-- @nvan-duysen - API, page d'historique des commandes, gestion des commandes
+- @nvan-duysen - API, page d'historique des commandes, gestion des commandes, docs
 
 ## :memo: License
 
