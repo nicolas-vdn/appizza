@@ -44,11 +44,13 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           const TextSpan(text: "Livraison prévue entre "),
                           TextSpan(
-                              text: DateFormat.Hm('fr_FR').format(now.add(const Duration(minutes: 30))),
+                              text: DateFormat.Hm('fr_FR')
+                                  .format(now.add(const Duration(minutes: 30))),
                               style: const TextStyle(fontWeight: FontWeight.bold)),
                           const TextSpan(text: " et "),
                           TextSpan(
-                              text: "${DateFormat.Hm('fr_FR').format(now.add(const Duration(hours: 2)))}.",
+                              text:
+                                  "${DateFormat.Hm('fr_FR').format(now.add(const Duration(hours: 2)))}.",
                               style: const TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -217,7 +219,8 @@ class _MapSectionState extends State<MapSection> {
     mapController = controller;
   }
 
-  List<PlaceSearch>? placePredictions = [];
+  List<PlaceSearch> placePredictions = [];
+  bool mapInteract = true;
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +234,8 @@ class _MapSectionState extends State<MapSection> {
             fieldViewBuilder: ((context, textEditingController, focusNode, onFieldSubmitted) {
               //On implémente nous même le builder du textField pour pouvoir ajouter un hintText
               return TextFormField(
+                onTap: () => setState(() => mapInteract = false),
+                onTapOutside: (e) => setState(() => mapInteract = true),
                 controller: textEditingController,
                 focusNode: focusNode,
                 onEditingComplete: onFieldSubmitted,
@@ -273,7 +278,10 @@ class _MapSectionState extends State<MapSection> {
                         final PlaceSearch option = options.elementAt(index);
 
                         return ListTile(
-                          onTap: () => onSelected(option),
+                          onTap: () {
+                            onSelected(option);
+                            setState(() => mapInteract = true);
+                          },
                           title: Text("${option.description}"),
                         );
                       },
@@ -287,9 +295,7 @@ class _MapSectionState extends State<MapSection> {
 
               if (place != null) {
                 mapController.moveCamera(CameraUpdate.newLatLng(LatLng(place.lat, place.lng)));
-                setState(() {
-                  placePredictions = [];
-                });
+                setState(() => placePredictions = []);
               }
             },
           ),
@@ -297,13 +303,16 @@ class _MapSectionState extends State<MapSection> {
         Container(
           padding: const EdgeInsets.all(16.0),
           width: MediaQuery.of(context).size.width - 50,
-          constraints: BoxConstraints(maxWidth: Breakpoints.tablet.size, maxHeight: Breakpoints.mobileL.size),
+          constraints: BoxConstraints(
+              maxWidth: Breakpoints.tablet.size, maxHeight: Breakpoints.mobileL.size),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: GoogleMap(
+                webGestureHandling: mapInteract ? WebGestureHandling.auto : WebGestureHandling.none,
+                zoomControlsEnabled: mapInteract,
                 onMapCreated: _onMapCreated,
-                initialCameraPosition:
-                    const CameraPosition(target: LatLng(48.856478593796744, 2.3394743644570393), zoom: 11.0)),
+                initialCameraPosition: const CameraPosition(
+                    target: LatLng(48.856478593796744, 2.3394743644570393), zoom: 11.0)),
           ),
         ),
       ],
